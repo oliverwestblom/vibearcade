@@ -1,5 +1,5 @@
 const canvas=document.querySelector('#board'),ctx=canvas.getContext('2d'),status=document.querySelector('#status');
-const W=720,H=520,PADDLE_Y=470,BRICK_COLS=10,BRICK_ROWS=6,BRICK_W=62,BRICK_H=23,GAP=6;
+const W=720,H=480,PADDLE_Y=430,BRICK_COLS=10,BRICK_ROWS=6,BRICK_W=62,BRICK_H=23,GAP=6;
 const colors=['#f76fae','#b9a0ff','#2fc4dc','#d5fb78','#ffb18b','#f3f3f7'],held=new Set();
 let paddle,balls,bricks,powerups,particles,score,lives,level,playing,last=0,serveTimer=0,widenTimer=0,levelPending=false,gameId=0;
 
