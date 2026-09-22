@@ -1,0 +1,5 @@
+[
+  {"name":"Snake","folder":"snake","description":"Samla mat, väx och håll dig borta från väggarna.","tag":"ARKAD","controls":"Piltangenter / WASD","number":"01"},
+  {"name":"Pong","folder":"pong","description":"Du mot datorn. Först till sju poäng vinner.","tag":"DUELL","controls":"Piltangenter / W och S","number":"02"},
+  {"name":"Elefanten","folder":"elefanten","description":"Bossfight: led zebrahjorden mot den stora rosa elefanten.","tag":"BOSSFIGHT","controls":"Piltangenter / A och D / Mellanslag","number":"03"}
+]
