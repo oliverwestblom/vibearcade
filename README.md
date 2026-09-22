@@ -1,6 +1,6 @@
 # B3 Vibe
 
-En fristående spelportal med Snake, Pong, Elefanten och Vibe Kong. Inga paket behöver installeras.
+En fristående spelportal med Snake, Pong, Elefanten, Elefantungen och Vibe Kong. Inga paket behöver installeras.
 
 ## Starta
 
@@ -43,7 +43,9 @@ Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin
 - Snake: piltangenter, WASD eller skärmknappar. Tio poäng per matbit.
 - Pong: upp/ner, W/S, håll skärmknapparna eller dra på spelplanen. Först till sju mot datorn.
 - Elefanten: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Zebran skjuter b3-orber av sig själv; mellanslag eller knappen Hjorden släpper lös hjorden när mätaren är full. Tre liv, bossen har 100 %.
+- Elefantungen: ett Tamagotchi. Mata (1), Leka (2), Städa (3), Sova (4) och Medicin (5), eller knapparna under planen. Fyra mätare faller med tiden, ungen bajsar och blir sjuk om något står på noll för länge. Den växer Ägg → Kalv → Unge → Vuxen och sparas i webbläsarens `localStorage`, så den lever vidare mellan besöken. Var du borta räknas högst fyra timmars förfall, och den kan aldrig dö medan du är borta — bara bli sjuk.
 - Vibe Kong: piltangenter eller WASD för att gå och klättra, mellanslag för att hoppa. Hjälp zebran uppför stegarna, hoppa över vibefaten och nå stjärnan bredvid den rosa elefanten.
+- Alla spel: rundan startar direkt när du väljer spelet på startsidan. Knappen i verktygsraden startar om rundan. I Elefantungen heter den Nytt ägg och kräver en extra klickbekräftelse om ungen hunnit bli äldre än en minut.
 - Alla spel: tillbaka-länken eller Escape går till huvudmenyn.
 - Snake, Pong, Elefanten och Vibe Kong avbryter rundan om fliken döljs; starta en ny runda när du återkommer.
 

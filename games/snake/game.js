@@ -43,6 +43,7 @@ function steer(name) {const target=directions[name];if(running && target && !(ta
 const keys = {ArrowUp:'up',w:'up',ArrowDown:'down',s:'down',ArrowLeft:'left',a:'left',ArrowRight:'right',d:'right'};
 document.addEventListener('keydown',event=>{const name=keys[event.key] || keys[event.key.toLowerCase()];if(name){event.preventDefault();steer(name);}});
 document.querySelectorAll('[data-direction]').forEach(button=>button.addEventListener('click',()=>steer(button.dataset.direction)));
-document.querySelector('#start').addEventListener('click',()=>{clearInterval(timer);reset();running=true;status.textContent='Håll dig borta från väggarna och din egen svans.';document.querySelector('#start').textContent='Spela igen';timer=setInterval(tick,130);});
+function start() {clearInterval(timer);reset();running=true;status.textContent='Håll dig borta från väggarna och din egen svans.';document.querySelector('#start').textContent='Spela igen';timer=setInterval(tick,130);}
+document.querySelector('#start').addEventListener('click',start);
 document.addEventListener('visibilitychange',()=>{if(document.hidden && running)end('Rundan avbröts när du lämnade fliken. Tryck på Spela igen.');});
-reset();
+start();

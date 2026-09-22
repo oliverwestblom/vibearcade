@@ -212,12 +212,13 @@ document.querySelector('#herd-button').addEventListener('click',callHerd);
 function pointer(event){const rect=canvas.getBoundingClientRect();player.x=Math.max(30,Math.min(W-30,(event.clientX-rect.left)*W/rect.width));}
 canvas.addEventListener('pointerdown',event=>{canvas.setPointerCapture(event.pointerId);pointer(event);});
 canvas.addEventListener('pointermove',event=>{if(event.buttons)pointer(event);});
-document.querySelector('#start').addEventListener('click',()=>{
+function start(){
   reset();playing=true;held.clear();
   status.textContent='Undvik snabeln och stampen. Träffa elefanten för att ladda hjorden.';
   document.querySelector('#start').textContent='Spela igen';
-});
+}
+document.querySelector('#start').addEventListener('click',start);
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&playing){playing=false;held.clear();status.textContent='Rundan avbröts när du lämnade fliken. Tryck på Spela igen.';}
 });
-reset();requestAnimationFrame(frame);
+start();requestAnimationFrame(frame);
