@@ -1,5 +1,9 @@
 const canvas=document.querySelector('#board'),ctx=canvas.getContext('2d'),status=document.querySelector('#status');
 const W=560,H=520,CELL=24,COLS=10,ROWS=22,HIDDEN=2,BX=158,BY=20;
+// Planen skalas upp av CSS pa hoga skarmar, sa rita i dubbel upplosning.
+// All ritkod raknar fortfarande i logiska W x H-koordinater.
+const RES=2;
+canvas.width=W*RES;canvas.height=H*RES;
 const GAME='vibetris',NAME_KEY='b3vibe-vibetris-namn',LOCAL_KEY='b3vibe-vibetris-topp';
 const COLORS={I:'#2fc4dc',O:'#d5fb78',T:'#b9a0ff',S:'#8de06a',Z:'#f76fae',J:'#5b9ef5',L:'#ffb18b'};
 const SHAPES={
@@ -192,6 +196,7 @@ function ritaTopp(){
   });
 }
 function draw(){
+  ctx.setTransform(RES,0,0,RES,0,0);
   ctx.fillStyle='#181d26';ctx.fillRect(0,0,W,H);
   ctx.fillStyle='#10131a';ctx.fillRect(BX,BY,COLS*CELL,(ROWS-HIDDEN)*CELL);
   ctx.strokeStyle='#ffffff0a';ctx.lineWidth=1;
