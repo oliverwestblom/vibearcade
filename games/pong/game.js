@@ -30,6 +30,7 @@ window.addEventListener('blur',()=>held.clear());
 document.querySelectorAll('[data-move]').forEach(button=>{button.addEventListener('pointerdown',e=>{button.setPointerCapture(e.pointerId);held.add(button.dataset.move);});for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,()=>held.delete(button.dataset.move));});
 function pointer(e){const rect=canvas.getBoundingClientRect();player=clamp((e.clientY-rect.top)*H/rect.height-PH/2);}
 canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointer(e);});canvas.addEventListener('pointermove',e=>{if(e.buttons)pointer(e);});
-document.querySelector('#start').addEventListener('click',()=>{player=computer=177;playerScore=computerScore=0;scores();held.clear();serve();playing=true;status.textContent='Först till sju. Lycka till!';document.querySelector('#start').textContent='Spela igen';});
+function start(){player=computer=177;playerScore=computerScore=0;scores();held.clear();serve();playing=true;status.textContent='Först till sju. Lycka till!';document.querySelector('#start').textContent='Spela igen';}
+document.querySelector('#start').addEventListener('click',start);
 document.addEventListener('visibilitychange',()=>{if(document.hidden && playing){playing=false;held.clear();status.textContent='Rundan avbröts när du lämnade fliken. Tryck på Spela igen.';}});
-serve();requestAnimationFrame(frame);
+start();requestAnimationFrame(frame);
