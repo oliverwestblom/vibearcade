@@ -78,6 +78,13 @@ class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT, **kwargs)
 
+    def end_headers(self):
+        # Utan det här serverar webbläsaren gärna en cachad app.js eller
+        # style.css efter en ändring, vilket ser ut som att fixen inte tog.
+        if not self.path.split('?')[0].startswith('/api/'):
+            self.send_header('Cache-Control', 'no-cache, must-revalidate')
+        super().end_headers()
+
     def send_json(self, code, payload):
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         self.send_response(code)
@@ -104,6 +111,13 @@ class Handler(SimpleHTTPRequestHandler):
         with lock:
             scores = read_scores().get(game, [])
         self.send_json(200, {'game': game, 'scores': scores})
+
+    def do_HEAD(self):
+        # Utan det har faller HEAD mot API:et igenom till filservningen och
+        # svarar 404 for en sokvag som GET svarar 200 pa.
+        if self.path.split('?')[0] == API_PATH:
+            return self.send_json(405, {'error': 'anvand GET eller POST'})
+        return super().do_HEAD()
 
     def do_POST(self):
         if self.path.split('?')[0] != API_PATH:

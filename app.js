@@ -24,10 +24,13 @@ async function loadGames() {
       const card = document.createElement('a');
       card.className = `game-card ${game.folder}`;
       card.href = `games/${encodeURIComponent(game.folder)}/index.html`;
+      const frame = document.createElement('div');
+      frame.className = 'art-frame';
+      frame.setAttribute('aria-hidden', 'true');
       const art = document.createElement('div');
       art.className = 'game-art';
-      art.setAttribute('aria-hidden', 'true');
       for (let i = 0; i < 8; i++) art.appendChild(document.createElement('i'));
+      frame.appendChild(art);
       const body = document.createElement('div');
       body.className = 'card-body';
       const tag = document.createElement('p'); tag.className = 'eyebrow'; tag.textContent = `${game.number || index + 1} / ${game.tag || 'SPEL'}`;
@@ -36,7 +39,7 @@ async function loadGames() {
       const controls = document.createElement('small'); controls.textContent = game.controls || '';
       const action = document.createElement('span'); action.className = 'card-action'; action.textContent = 'Spela nu ↗';
       body.append(tag, title, description, controls, action);
-      card.append(art, body); container.append(card);
+      card.append(frame, body); container.append(card);
     });
     document.querySelector('#game-count').textContent = `${games.length} spel att upptäcka`;
     if (!games.length) container.textContent = 'Inga spel har lagts till ännu.';
