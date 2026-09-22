@@ -203,11 +203,12 @@ document.querySelectorAll('[data-action]').forEach(button=>{
 });
 document.querySelector('#jump-button').addEventListener('click',jump);
 canvas.addEventListener('pointerdown',jump);
-document.querySelector('#start').addEventListener('click',()=>{
+function start(){
   resetGame();playing=true;held.clear();status.textContent='Klättra upp, hoppa över vibefaten och nå stjärnan!';
   document.querySelector('#start').textContent='Spela igen';
-});
+}
+document.querySelector('#start').addEventListener('click',start);
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&playing){playing=false;held.clear();status.textContent='Rundan avbröts när du lämnade fliken. Tryck på Spela igen.';}
 });
-resetGame();requestAnimationFrame(frame);
+start();requestAnimationFrame(frame);
