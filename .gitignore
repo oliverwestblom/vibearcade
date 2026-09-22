@@ -1,0 +1,8 @@
+# Lokala highscore-rekord. Varje maskin har sin egen lista, så filen ska
+# aldrig följa med i en commit och kan inte ge merge-konflikter.
+highscores.json
+highscores.json.tmp
+
+# Python
+__pycache__/
+*.pyc

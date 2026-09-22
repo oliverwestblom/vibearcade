@@ -1,6 +1,6 @@
 # B3 Vibe
 
-En fristående spelportal med Snake, Pong, Elefanten, Elefantungen, Vibe Kong och Vibe Rescue. Inga paket behöver installeras.
+En fristående spelportal med Snake, Pong, Elefanten, Elefantungen, Vibe Kong, Vibe Rescue och Vibetris. Inga paket behöver installeras.
 
 ## Starta
 
@@ -8,10 +8,27 @@ En fristående spelportal med Snake, Pong, Elefanten, Elefantungen, Vibe Kong oc
 
 ```powershell
 cd C:\work\b3vibe
-python -m http.server 8000
+python server.py 8000 --bind 127.0.0.1
 ```
 
 Öppna http://localhost:8000 i webbläsaren. Avsluta servern med Ctrl+C.
+
+`server.py` använder bara Pythons standardbibliotek. Den serverar filerna precis som `python -m http.server`, men lägger till ett litet highscore-API så att Vibetris topplista kan sparas i en fil på disk:
+
+```
+GET  /api/highscores?game=vibetris   -> {"scores": [...]}
+POST /api/highscores                 -> {"scores": [...]}
+```
+
+Listan hamnar i `highscores.json` bredvid `server.py`. Den filen är git-ignorerad, så varje maskin har sin egen topplista och rekorden kan aldrig ge merge-konflikter. Skrivningen sker atomiskt via en temporärfil, och servern validerar spelnamn, poäng och bodystorlek innan något sparas.
+
+Det gamla kommandot fungerar fortfarande:
+
+```powershell
+python -m http.server 8000
+```
+
+Då finns inget API, och Vibetris faller automatiskt tillbaka på webbläsarens `localStorage` för topplistan. Spelet visar vilket läge det kör i, `(fil)` eller `(lokalt)`, ovanför listan.
 
 Startsidan läser spelen från `games.json`. Kör via webbservern eftersom webbläsare kan blockera hämtning av JSON när HTML-filen dubbelklickas direkt.
 
@@ -22,10 +39,10 @@ Använd en Git-klon för att kunna hämta uppdateringar. En uppackad ZIP saknar 
 ```bash
 git clone https://github.com/oliverwestblom/vibearcade.git ~/vibearcade
 cd ~/vibearcade
-python3 -m http.server 8000 --bind 127.0.0.1
+python3 server.py 8000 --bind 127.0.0.1
 ```
 
-Öppna http://localhost:8000 i Chromium. För att uppdatera, öppna en annan terminal och kör:
+Öppna http://localhost:8000 i Chromium. Pi:n får sin egen `highscores.json`; eftersom filen är git-ignorerad stoppar `git pull` aldrig på grund av lokala rekord. För att uppdatera, öppna en annan terminal och kör:
 
 ```bash
 cd ~/vibearcade
@@ -46,6 +63,7 @@ Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin
 - Elefantungen: ett Tamagotchi. Mata (1), Leka (2), Städa (3), Sova (4) och Medicin (5), eller knapparna under planen. Fyra mätare faller med tiden, ungen bajsar och blir sjuk om något står på noll för länge. Den växer Ägg → Kalv → Unge → Vuxen och sparas i webbläsarens `localStorage`, så den lever vidare mellan besöken. Var du borta räknas högst fyra timmars förfall, och den kan aldrig dö medan du är borta — bara bli sjuk.
 - Vibe Kong: piltangenter eller WASD för att gå och klättra, mellanslag för att hoppa. Hjälp zebran uppför stegarna, hoppa över vibefaten och nå stjärnan bredvid den rosa elefanten.
 - Vibe Rescue: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Styr den rosa elefantens räddningsflotte och fånga de fallskärmshoppande zebrorna. Tre missar avslutar rundan.
+- Vibetris: en Tetris-klon. ← → flyttar, ↑ eller X roterar medurs, Z moturs, ↓ mjukdroppar, mellanslag hårddroppar, C håller en bit, P pausar. Följer riktlinjerna: 7-bag-slump, SRS-rotation med wall kicks, ghost-bit, hold, lock delay, T-spins, back-to-back och combo. Nivån stiger var tionde rad och gravitationen med den. Skriv ditt namn i fältet ovanför planen så sparas poängen i topplistan när rundan tar slut.
 - Alla spel: rundan startar direkt när du väljer spelet på startsidan. Knappen i verktygsraden startar om rundan. I Elefantungen heter den Nytt ägg och kräver en extra klickbekräftelse om ungen hunnit bli äldre än en minut.
 - Alla spel: tillbaka-länken eller Escape går till huvudmenyn.
 - Snake, Pong, Elefanten, Vibe Kong och Vibe Rescue avbryter rundan om fliken döljs; starta en ny runda när du återkommer.
