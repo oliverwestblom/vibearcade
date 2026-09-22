@@ -3,5 +3,6 @@
   {"name":"Pong","folder":"pong","description":"Du mot datorn. Först till sju poäng vinner.","tag":"DUELL","controls":"Piltangenter / W och S","number":"02"},
   {"name":"Elefanten","folder":"elefanten","description":"Bossfight: led zebrahjorden mot den stora rosa elefanten.","tag":"BOSSFIGHT","controls":"Piltangenter / A och D / Mellanslag","number":"03"},
   {"name":"Elefantungen","folder":"elefantungen","description":"Föd upp din egen b3-unge. Den lever vidare mellan besöken.","tag":"HUSDJUR","controls":"Knappar / 1–5","number":"04"},
-  {"name":"Vibe Kong","folder":"vibe-kong","description":"Klättra, hoppa över vibefat och nå den rosa elefanten.","tag":"PLATTFORM","controls":"Piltangenter / WASD / Mellanslag","number":"05"}
+  {"name":"Vibe Kong","folder":"vibe-kong","description":"Klättra, hoppa över vibefat och nå den rosa elefanten.","tag":"PLATTFORM","controls":"Piltangenter / WASD / Mellanslag","number":"05"},
+  {"name":"Vibe Rescue","folder":"vibe-rescue","description":"Fånga fallskärmshoppande zebror med elefantens räddningsflotte.","tag":"PARACHUTE","controls":"Piltangenter / A och D / Dra","number":"06"}
 ]

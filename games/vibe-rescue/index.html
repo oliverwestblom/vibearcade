@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibe Rescue · B3 Vibe</title>
+  <link rel="stylesheet" href="../../style.css">
+  <script src="../common.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="game-shell">
+    <a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
+    <header class="game-header">
+      <p class="eyebrow">06 / PARACHUTE</p>
+      <h1>Vibe Rescue<span>.</span></h1>
+      <p>Zebrorna faller från vibe-luftskeppet. Styr den rosa elefantens räddningsflotte med piltangenter, A/D eller knapparna och fånga dem innan de når vattnet.</p>
+    </header>
+    <div class="toolbar">
+      <span class="stats">Poäng <span id="score">0</span> · Räddade <span id="saved">0</span> · Missar <span id="misses">0</span>/3</span>
+      <button class="primary" id="start">Spela igen</button>
+    </div>
+    <canvas id="board" width="720" height="500" aria-label="Räddningsspel där en rosa elefant i en flotte fångar fallskärmshoppande zebror."></canvas>
+    <p id="status" role="status">Fånga zebrorna innan de landar i vattnet.</p>
+    <div class="touch-controls" aria-label="Styrning">
+      <button class="control" data-move="left" aria-label="Flytta flotten åt vänster">← Håll för vänster</button>
+      <button class="control" data-move="right" aria-label="Flytta flotten åt höger">Håll för höger →</button>
+    </div>
+  </main>
+</body>
+</html>
