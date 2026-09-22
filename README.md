@@ -15,6 +15,29 @@ python -m http.server 8000
 
 Startsidan läser spelen från `games.json`. Kör via webbservern eftersom webbläsare kan blockera hämtning av JSON när HTML-filen dubbelklickas direkt.
 
+## Raspberry Pi: installera och uppdatera
+
+Använd en Git-klon för att kunna hämta uppdateringar. En uppackad ZIP saknar Git-historiken. Klona till en ny mapp om du redan har en ZIP-version:
+
+```bash
+git clone https://github.com/oliverwestblom/vibearcade.git ~/vibearcade
+cd ~/vibearcade
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+Öppna http://localhost:8000 i Chromium. För att uppdatera, öppna en annan terminal och kör:
+
+```bash
+cd ~/vibearcade
+bash update.sh
+```
+
+Skriptet hämtar `main` från `origin` med `git pull --ff-only`. Det stoppar vid lokala ändringar, nya filer, fel gren eller historik som kräver en merge. Inga lokala ändringar raderas automatiskt. GitHub-inloggning krävs om repot är privat.
+
+Webbservern behöver inte startas om när HTML, CSS och JavaScript uppdateras. Ladda om Chromium med Ctrl+Shift+R efter uppdateringen. `bash update.sh` kräver inga ändrade körbehörigheter och kan även anropas med skriptets fullständiga sökväg.
+
+Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin main` en gång för att hämta det efter att ändringen publicerats på GitHub.
+
 ## Spel
 
 - Snake: piltangenter, WASD eller skärmknappar. Tio poäng per matbit.
