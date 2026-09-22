@@ -1,6 +1,6 @@
 # B3 Vibe
 
-En fristående spelportal med Snake, Pong och Elefanten. Inga paket behöver installeras.
+En fristående spelportal med Snake, Pong, Elefanten och Vibe Kong. Inga paket behöver installeras.
 
 ## Starta
 
@@ -43,8 +43,9 @@ Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin
 - Snake: piltangenter, WASD eller skärmknappar. Tio poäng per matbit.
 - Pong: upp/ner, W/S, håll skärmknapparna eller dra på spelplanen. Först till sju mot datorn.
 - Elefanten: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Zebran skjuter b3-orber av sig själv; mellanslag eller knappen Hjorden släpper lös hjorden när mätaren är full. Tre liv, bossen har 100 %.
+- Vibe Kong: piltangenter eller WASD för att gå och klättra, mellanslag för att hoppa. Hjälp zebran uppför stegarna, hoppa över vibefaten och nå stjärnan bredvid den rosa elefanten.
 - Alla spel: tillbaka-länken eller Escape går till huvudmenyn.
-- Snake, Pong och Elefanten avbryter rundan om fliken döljs; starta en ny runda när du återkommer.
+- Snake, Pong, Elefanten och Vibe Kong avbryter rundan om fliken döljs; starta en ny runda när du återkommer.
 
 Memory ligger kvar under `games/memory/` men är borttagen ur `games.json` och visas därför inte på startsidan. Lägg tillbaka posten i `games.json` för att få tillbaka det.
 

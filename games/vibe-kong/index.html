@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibe Kong · B3 Vibe</title>
+  <link rel="stylesheet" href="../../style.css">
+  <script src="../common.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="game-shell">
+    <a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
+    <header class="game-header">
+      <p class="eyebrow">04 / PLATTFORM</p>
+      <h1>Vibe Kong<span>.</span></h1>
+      <p>Hjälp zebran upp till den rosa elefanten. Hoppa över vibefat och klättra på stegarna med piltangenter, WASD eller knapparna.</p>
+    </header>
+    <div class="toolbar">
+      <span class="stats">Poäng <span id="score">0</span> · Liv <span id="lives">3</span> · Bana <span id="level">1</span></span>
+      <button class="primary" id="start">Starta spelet</button>
+    </div>
+    <canvas id="board" width="720" height="520" aria-label="Plattformsspel där en zebra klättrar mot en rosa elefant och hoppar över rullande vibefat."></canvas>
+    <p id="status" role="status">Tryck på Starta spelet för att börja.</p>
+    <div class="touch-controls" aria-label="Styrning">
+      <button class="control" data-action="left" aria-label="Flytta vänster">←</button>
+      <button class="control" data-action="up" aria-label="Klättra upp">↑ Klättra</button>
+      <button class="control" id="jump-button" aria-label="Hoppa">Hoppa</button>
+      <button class="control" data-action="right" aria-label="Flytta höger">→</button>
+    </div>
+  </main>
+</body>
+</html>
