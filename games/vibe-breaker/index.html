@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibe Breaker · B3 Vibe</title>
+  <link rel="stylesheet" href="../../style.css">
+  <script src="../common.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="game-shell">
+    <a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
+    <header class="game-header">
+      <p class="eyebrow">07 / BRICK BREAKER</p>
+      <h1>Vibe Breaker<span>.</span></h1>
+      <p>Studsa den rosa vibe-orben med zebran och krossa hela väggen. Styr med piltangenter, A/D, skärmknappar eller genom att dra på planen.</p>
+    </header>
+    <div class="toolbar">
+      <span class="stats">Poäng <span id="score">0</span> · Liv <span id="lives">3</span> · Bana <span id="level">1</span></span>
+      <button class="primary" id="start">Spela igen</button>
+    </div>
+    <canvas id="board" width="720" height="520" aria-label="Brick breaker-spel där en zebra studsar en rosa boll mot färgade block."></canvas>
+    <p id="status" role="status">Krossa alla block med vibe-orben.</p>
+    <div class="touch-controls" aria-label="Styrning">
+      <button class="control" data-move="left" aria-label="Flytta zebran åt vänster">← Håll för vänster</button>
+      <button class="control" data-move="right" aria-label="Flytta zebran åt höger">Håll för höger →</button>
+    </div>
+  </main>
+</body>
+</html>

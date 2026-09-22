@@ -1,6 +1,6 @@
 # B3 Vibe
 
-En fristående spelportal med Snake, Pong, Elefanten, Elefantungen, Vibe Kong, Vibe Rescue och Vibetris. Inga paket behöver installeras.
+En fristående spelportal med Snake, Pong, Elefanten, Elefantungen, Vibe Kong, Vibe Rescue, Vibetris och Vibe Breaker. Inga paket behöver installeras.
 
 ## Starta
 
@@ -64,9 +64,10 @@ Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin
 - Vibe Kong: piltangenter eller WASD för att gå och klättra, mellanslag för att hoppa. Hjälp zebran uppför stegarna, hoppa över vibefaten och nå stjärnan bredvid den rosa elefanten.
 - Vibe Rescue: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Styr den rosa elefantens räddningsflotte och fånga de fallskärmshoppande zebrorna. Tre missar avslutar rundan.
 - Vibetris: en Tetris-klon. ← → flyttar, ↑ eller X roterar medurs, Z moturs, ↓ mjukdroppar, mellanslag hårddroppar, C håller en bit, P pausar. Följer riktlinjerna: 7-bag-slump, SRS-rotation med wall kicks, ghost-bit, hold, lock delay, T-spins, back-to-back och combo. Nivån stiger var tionde rad och gravitationen med den. Skriv ditt namn i fältet ovanför planen så sparas poängen i topplistan när rundan tar slut.
+- Vibe Breaker: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Studsa den rosa vibe-orben med zebran, krossa alla block och fånga power-ups för bredare platta, fler orber, lägre fart eller extra liv.
 - Alla spel: rundan startar direkt när du väljer spelet på startsidan. Knappen i verktygsraden startar om rundan. I Elefantungen heter den Nytt ägg och kräver en extra klickbekräftelse om ungen hunnit bli äldre än en minut.
 - Alla spel: tillbaka-länken eller Escape går till huvudmenyn.
-- Snake, Pong, Elefanten, Vibe Kong och Vibe Rescue avbryter rundan om fliken döljs; starta en ny runda när du återkommer.
+- Snake, Pong, Elefanten, Vibe Kong, Vibe Rescue och Vibe Breaker avbryter rundan om fliken döljs; starta en ny runda när du återkommer. Vibetris pausar istället, och Elefantungen lever vidare.
 
 Memory ligger kvar under `games/memory/` men är borttagen ur `games.json` och visas därför inte på startsidan. Lägg tillbaka posten i `games.json` för att få tillbaka det.
 

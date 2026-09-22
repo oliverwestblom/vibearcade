@@ -5,5 +5,6 @@
   {"name":"Elefantungen","folder":"elefantungen","description":"Föd upp din egen b3-unge. Den lever vidare mellan besöken.","tag":"HUSDJUR","controls":"Knappar / 1–5","number":"04"},
   {"name":"Vibe Kong","folder":"vibe-kong","description":"Klättra, hoppa över vibefat och nå den rosa elefanten.","tag":"PLATTFORM","controls":"Piltangenter / WASD / Mellanslag","number":"05"},
   {"name":"Vibe Rescue","folder":"vibe-rescue","description":"Fånga fallskärmshoppande zebror med elefantens räddningsflotte.","tag":"PARACHUTE","controls":"Piltangenter / A och D / Dra","number":"06"},
-  {"name":"Vibetris","folder":"vibetris","description":"Tetris med SRS-rotation, hold, ghost och T-spins. Topplista sparas.","tag":"PUSSEL","controls":"Piltangenter / X och Z / Mellanslag","number":"07"}
+  {"name":"Vibetris","folder":"vibetris","description":"Tetris med SRS-rotation, hold, ghost och T-spins. Topplista sparas.","tag":"PUSSEL","controls":"Piltangenter / X och Z / Mellanslag","number":"07"},
+  {"name":"Vibe Breaker","folder":"vibe-breaker","description":"Studsa vibe-orben med zebran och krossa den färgglada väggen.","tag":"BRICK BREAKER","controls":"Piltangenter / A och D / Dra","number":"08"}
 ]
