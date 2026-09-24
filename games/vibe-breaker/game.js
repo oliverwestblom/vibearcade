@@ -1,5 +1,5 @@
 const canvas=document.querySelector('#board'),ctx=canvas.getContext('2d'),status=document.querySelector('#status');
-const W=900,H=600,PADDLE_Y=550,BRICK_COLS=10,BRICK_ROWS=6,BRICK_W=78,BRICK_H=27,GAP=7,PADDLE_BASE=136,PADDLE_WIDE=205;
+const W=720,H=480,PADDLE_Y=430,BRICK_COLS=10,BRICK_ROWS=6,BRICK_W=62,BRICK_H=23,GAP=6;
 const colors=['#f76fae','#b9a0ff','#2fc4dc','#d5fb78','#ffb18b','#f3f3f7'],held=new Set();
 let paddle,balls,bricks,powerups,particles,score,lives,level,playing,last=0,serveTimer=0,widenTimer=0,levelPending=false,gameId=0;
 
@@ -8,15 +8,15 @@ function makeBricks(){
   const startX=(W-(BRICK_COLS*BRICK_W+(BRICK_COLS-1)*GAP))/2;
   for(let row=0;row<BRICK_ROWS;row++)for(let col=0;col<BRICK_COLS;col++){
     const hp=level>=3&&row<Math.min(2,level-1)?2:1;
-    bricks.push({x:startX+col*(BRICK_W+GAP),y:72+row*(BRICK_H+GAP),w:BRICK_W,h:BRICK_H,hp,maxHp:hp,color:colors[row]});
+    bricks.push({x:startX+col*(BRICK_W+GAP),y:66+row*(BRICK_H+GAP),w:BRICK_W,h:BRICK_H,hp,maxHp:hp,color:colors[row]});
   }
 }
-function makeBall(x=paddle.x,y=PADDLE_Y-34,vx=(Math.random()>.5?1:-1)*230,vy=-335){
+function makeBall(x=paddle.x,y=PADDLE_Y-31,vx=(Math.random()>.5?1:-1)*190,vy=-285){
   const speed=1+(level-1)*.06;
   return{x,y,vx:vx*speed,vy:vy*speed,r:8,trail:[]};
 }
 function resetPaddle(){
-  paddle={x:W/2,width:PADDLE_BASE,vx:0};widenTimer=0;
+  paddle={x:W/2,width:108,vx:0};widenTimer=0;
 }
 function resetGame(){
   gameId++;
@@ -39,7 +39,7 @@ function maybeDrop(brick){
 }
 function applyPowerup(type){
   if(type==='wide'){
-    paddle.width=PADDLE_WIDE;widenTimer=12;status.textContent='Bred zebra! Plattan är större i 12 sekunder.';
+    paddle.width=164;widenTimer=12;status.textContent='Bred zebra! Plattan är större i 12 sekunder.';
   }else if(type==='multi'){
     const clones=[];
     balls.forEach(ball=>{
@@ -98,11 +98,11 @@ function update(dt){
   paddle.x=Math.max(paddle.width/2+10,Math.min(W-paddle.width/2-10,paddle.x+paddle.vx*dt));
   if(widenTimer>0){
     widenTimer-=dt;
-    if(widenTimer<=0){paddle.width=PADDLE_BASE;paddle.x=Math.max(PADDLE_BASE/2+10,Math.min(W-PADDLE_BASE/2-10,paddle.x));}
+    if(widenTimer<=0){paddle.width=108;paddle.x=Math.max(64,Math.min(W-64,paddle.x));}
   }
   if(serveTimer>0){
     serveTimer-=dt;
-    balls.forEach(ball=>{ball.x=paddle.x;ball.y=PADDLE_Y-34;});
+    balls.forEach(ball=>{ball.x=paddle.x;ball.y=PADDLE_Y-31;});
   }else{
     balls=balls.filter(ball=>updateBall(ball,dt));
     if(!balls.length&&!levelPending)loseLife();
