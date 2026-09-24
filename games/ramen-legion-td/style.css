@@ -1,0 +1,55 @@
+/* Legion TD Vibe – lokal CSS. Portalens ../../style.css står för grunden;
+   här finns bara det som är specifikt för det här spelet. */
+
+/* Spelet har mer gränssnitt under planen än övriga spel, så det behöver en
+   egen höjdbudget. Variabeln är densamma som portalen använder. */
+/* Uppmatt chrome: 627px normalt, 340px i helskarm da rubriken goms. */
+.game-shell.ltd { --game-chrome: 632px; }
+.game-shell.ltd:fullscreen,
+body.skarmfyllt .game-shell.ltd { --game-chrome: 346px; }
+
+.ltd-nasta {
+  display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: center;
+  margin: 8px 0 0; font-size: 11px; color: var(--muted);
+}
+.ltd-nasta span:first-child { color: var(--text); font-weight: 700; }
+
+.ltd-butik {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 10px 0 0;
+}
+.ltd-kort {
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+  padding: 8px 9px; border: 1px solid #3b4250; border-radius: 10px;
+  background: #222a38; color: var(--text); text-align: left; cursor: pointer;
+  font: inherit; line-height: 1.25;
+}
+.ltd-kort b { font-size: 12px; }
+.ltd-kort i { font-style: normal; font-size: 11px; color: var(--lime); font-weight: 700; }
+.ltd-kort small { font-size: 9px; color: var(--muted); }
+.ltd-kort:hover:not(:disabled) { border-color: var(--teal); }
+.ltd-kort.vald { border-color: var(--lime); background: #2c3a24; }
+.ltd-kort.orad i { color: #ff6b5e; }
+.ltd-kort:disabled { opacity: .45; cursor: not-allowed; }
+
+.ltd-vald {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 8px; margin: 9px 0 0; padding: 8px 10px;
+  border: 1px solid #3b4250; border-radius: 10px; background: #1f2633; font-size: 12px;
+}
+/* display:flex slar ut webblasarens [hidden], sa den maste sagas till. */
+.ltd-vald[hidden], .ltd-resultat[hidden] { display: none; }
+.ltd-vald small { color: var(--muted); font-size: 11px; }
+.ltd-knappar { display: flex; gap: 6px; flex-wrap: wrap; }
+.ltd-knappar .control { padding: 7px 12px; font-size: 12px; min-width: 0; }
+.ltd-knappar .control:disabled { opacity: .45; cursor: not-allowed; }
+
+.ltd-resultat {
+  margin: 9px 0 0; padding: 8px 10px; border-radius: 10px;
+  background: #1c2a1c; border: 1px solid #3f5a34;
+  color: var(--lime); font-size: 11px; font-weight: 700; text-align: center;
+}
+
+@media (max-width: 720px) {
+  .ltd-butik { grid-template-columns: repeat(2, 1fr); }
+  .ltd-vald { flex-direction: column; align-items: stretch; }
+}

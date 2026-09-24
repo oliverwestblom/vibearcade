@@ -12,20 +12,66 @@ git-ignorerad, så lokala rekord följer aldrig med i en commit.
 Kör:  python server.py 8000 --bind 127.0.0.1
 Bara stdlib, inga paket behövs.
 """
+import base64
+import binascii
 import json
 import os
 import re
+import secrets
 import sys
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SCORE_FILE = os.path.join(ROOT, 'highscores.json')
+PHOTO_DIR = os.path.join(ROOT, 'highscore-photos')
+PHOTO_URL = '/highscore-photos/'
 API_PATH = '/api/highscores'
 KEEP_PER_GAME = 10
-MAX_BODY = 2048
+MAX_BODY = 400_000          # en post med rekordbild ar storre an en utan
+MAX_PHOTO = 160_000         # avkodad bild, bytes
 GAME_RE = re.compile(r'^[a-z0-9_-]{1,32}$')
+PHOTO_RE = re.compile(r'^[a-z0-9_-]{1,32}-[0-9a-f]{16}\.jpg$')
+JPEG_MAGIC = b'\xff\xd8\xff'
 lock = threading.Lock()
+
+
+def save_photo(game, data_url):
+    """Spara en JPEG-data-URL som fil och returnera dess url, eller None."""
+    if not isinstance(data_url, str) or not data_url.startswith('data:image/jpeg;base64,'):
+        return None
+    raw = data_url.split(',', 1)[1]
+    if len(raw) > MAX_PHOTO * 2:
+        return None
+    try:
+        blob = base64.b64decode(raw, validate=True)
+    except (ValueError, binascii.Error):
+        return None
+    # Lita inte pa mime-typen i url:en, kolla filens egna magiska bytes.
+    if not blob.startswith(JPEG_MAGIC) or len(blob) > MAX_PHOTO:
+        return None
+    namn = f'{game}-{secrets.token_hex(8)}.jpg'
+    try:
+        os.makedirs(PHOTO_DIR, exist_ok=True)
+        with open(os.path.join(PHOTO_DIR, namn), 'wb') as handle:
+            handle.write(blob)
+    except OSError as error:
+        sys.stderr.write(f'kunde inte spara rekordbild ({error})\n')
+        return None
+    return PHOTO_URL + namn
+
+
+def drop_photo(url):
+    """Ta bort bildfilen for en post som trillat ur topplistan."""
+    if not isinstance(url, str) or not url.startswith(PHOTO_URL):
+        return
+    namn = url[len(PHOTO_URL):]
+    if not PHOTO_RE.match(namn):
+        return
+    try:
+        os.remove(os.path.join(PHOTO_DIR, namn))
+    except OSError:
+        pass
 
 
 def read_scores():
@@ -135,17 +181,26 @@ class Handler(SimpleHTTPRequestHandler):
         game, entry = clean_entry(payload)
         if not game:
             return self.send_json(400, {'error': 'ogiltig post'})
+        bild = save_photo(game, payload.get('photo'))
+        if bild:
+            entry['photo'] = bild
         with lock:
             data = read_scores()
             board = [row for row in data.get(game, []) if isinstance(row, dict)]
             board.append(entry)
             board.sort(key=lambda row: row.get('score', 0), reverse=True)
-            data[game] = board[:KEEP_PER_GAME]
+            behall, ut = board[:KEEP_PER_GAME], board[KEEP_PER_GAME:]
+            data[game] = behall
             try:
                 write_scores(data)
             except OSError as error:
+                if bild:
+                    drop_photo(bild)
                 return self.send_json(500, {'error': f'kunde inte skriva filen: {error}'})
-            scores = data[game]
+            # Stada bilder for poster som trillat ur listan, annars vaxer mappen for evigt.
+            for rad in ut:
+                drop_photo(rad.get('photo'))
+            scores = behall
         self.send_json(200, {'game': game, 'scores': scores, 'saved': entry in scores})
 
 

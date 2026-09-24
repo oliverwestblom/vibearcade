@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Legion TD Vibe · B3 Vibe</title><link rel="stylesheet" href="../../style.css"><link rel="stylesheet" href="style.css"><script src="../common.js" defer></script><script src="data.js" defer></script><script src="game.js" defer></script></head>
+<body><main class="game-shell ltd">
+<a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
+<header class="game-header"><p class="eyebrow">10 / TOWER DEFENSE</p><h1>Legion TD Vibe<span>.</span></h1><p>Fienderna följer banan. Bygg torn bredvid den, och sparad Ramen ger 5 % ränta per överlevd våg.</p></header>
+<div class="toolbar">
+  <span class="stats">Ramen <span id="ramen">500 / 300 000</span> · Ränta <span id="ranta">25</span> · Liv <span id="liv">20</span> · Våg <span id="vag">1 / 20</span> · <span id="fas">byggfas</span></span>
+  <button class="primary" id="start" type="button">Starta om</button>
+</div>
+<canvas id="board" width="748" height="652" aria-label="Bana som fienderna följer fram till den rosa elefantkungen, med byggrutor längs sidorna."></canvas>
+<p id="status" role="status">Byggfas inför våg 1. Fienderna följer banan — bygg bredvid den.</p>
+<div class="ltd-nasta"><span id="nasta-vag"></span><span id="nasta-egenskap"></span></div>
+<div class="ltd-butik" aria-label="Butik">
+  <button class="ltd-kort" type="button" data-enhet="zebravakt"><b>1 Zebravakt</b><i>100 Ramen</i><small>20 skada / 0,9 s · 2,6 rutor</small></button>
+  <button class="ltd-kort" type="button" data-enhet="nudelskytt"><b>2 Nudelskytt</b><i>150 Ramen</i><small>55 skada / 1,6 s · 6 rutor</small></button>
+  <button class="ltd-kort" type="button" data-enhet="buljongtank"><b>3 Buljongkanon</b><i>220 Ramen</i><small>40 skada / 1,5 s · område 1,2</small></button>
+  <button class="ltd-kort" type="button" data-enhet="chilikastare"><b>4 Chilikastare</b><i>260 Ramen</i><small>26 skada / 0,7 s · område 0,9</small></button>
+  <button class="ltd-kort" type="button" data-enhet="iskock"><b>5 Iskock</b><i>200 Ramen</i><small>14 skada · bromsar 35 % i 2 s</small></button>
+  <button class="ltd-kort" type="button" data-enhet="ramenmunk"><b>6 Ramenmunk</b><i>240 Ramen</i><small>stöd: +25 % skada åt torn intill</small></button>
+</div>
+<div class="ltd-vald" id="vald-panel" hidden>
+  <span><b id="vald-namn"></b> <small id="vald-info"></small></span>
+  <span class="ltd-knappar">
+    <button class="control" type="button" id="flytta">Flytta</button>
+    <button class="control" type="button" id="uppgradera">Uppgradera</button>
+    <button class="control" type="button" id="salj">Sälj</button>
+  </span>
+</div>
+<p class="ltd-resultat" id="resultat" hidden></p>
+<div class="touch-controls" aria-label="Spelkontroller">
+  <button class="control primary" type="button" id="starta-vag">Starta våg</button>
+  <button class="control" type="button" id="pausa">Pausa</button>
+  <button class="control" type="button" id="fart">1×</button>
+  <button class="control" type="button" id="avbryt">Avbryt val</button>
+</div>
+</main></body></html>

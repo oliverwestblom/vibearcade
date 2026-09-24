@@ -3,6 +3,9 @@
 highscores.json
 highscores.json.tmp
 
+# Rekordbilder fran kameran. Lokala, ska aldrig committas.
+highscore-photos/
+
 # Python
 __pycache__/
 *.pyc

@@ -127,11 +127,19 @@ function hud(){
 }
 function gravitation(){const n=Math.min(level,20);return Math.pow(.8-(n-1)*.007,n-1);}
 
+let toppBild=null,toppBildUrl='';
+function laddaToppBild(){
+  const url=topp.length&&topp[0].photo?topp[0].photo:'';
+  if(url===toppBildUrl)return;
+  toppBildUrl=url;toppBild=null;
+  if(!url)return;
+  const bild=new Image();bild.onload=()=>{toppBild=bild;};bild.src=url;
+}
 async function hamtaTopp(){
   try{
     const svar=await fetch(`../../api/highscores?game=${GAME}`,{cache:'no-store'});
     if(!svar.ok)throw new Error('nej');
-    topp=(await svar.json()).scores||[];toppLage='fil';
+    topp=(await svar.json()).scores||[];toppLage='fil';laddaToppBild();
   }catch(error){
     toppLage='lokalt';
     try{topp=JSON.parse(localStorage.getItem(LOCAL_KEY)||'[]');}catch(e){topp=[];}
@@ -143,9 +151,9 @@ async function skickaPoang(){
   try{localStorage.setItem(NAME_KEY,namn);}catch(error){}
   const post={game:GAME,name:namn,score,lines,level};
   try{
-    const svar=await fetch('../../api/highscores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(post)});
+    const svar=await fetch('../../api/highscores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...post,photo:Foto.ta()})});
     if(!svar.ok)throw new Error('nej');
-    topp=(await svar.json()).scores||[];toppLage='fil';
+    topp=(await svar.json()).scores||[];toppLage='fil';laddaToppBild();
   }catch(error){
     toppLage='lokalt';
     topp=[...topp,{name:namn,score,lines,level}].sort((a,b)=>b.score-a.score).slice(0,10);
@@ -238,6 +246,13 @@ function draw(){
     ctx.fillText(over?'SLUT':'PAUS',BX+COLS*CELL/2,BY+220);
     ctx.fillStyle='#a6aabb';ctx.font='bold 11px Arial';
     ctx.fillText(over?`${score} poäng`:'Tryck P för att fortsätta',BX+COLS*CELL/2,BY+250);
+    if(over&&toppBild){
+      const bw=120,bh=bw*toppBild.height/toppBild.width,bx=BX+COLS*CELL/2-bw/2,by=BY+272;
+      ctx.drawImage(toppBild,bx,by,bw,bh);
+      ctx.strokeStyle='#2fc4dc';ctx.lineWidth=2;ctx.strokeRect(bx,by,bw,bh);
+      ctx.fillStyle='#8d92a3';ctx.font='bold 9px Arial';
+      ctx.fillText(`${topp[0].name} · ${topp[0].score}`,BX+COLS*CELL/2,by+bh+13);
+    }
   }
 }
 
@@ -301,6 +316,22 @@ document.querySelectorAll('[data-tap]').forEach(button=>button.addEventListener(
 const ned=document.querySelector('[data-hold="ner"]');
 ned.addEventListener('pointerdown',event=>{ned.setPointerCapture(event.pointerId);held.add('ner');});
 for(const name of['pointerup','pointercancel','lostpointercapture'])ned.addEventListener(name,()=>held.delete('ner'));
+const fotoKnapp=document.querySelector('#foto');
+function fotoEtikett(){
+  fotoKnapp.textContent=`Rekordfoto: ${Foto.aktiv()?'på':'av'}`;
+  fotoKnapp.classList.toggle('pa',Foto.aktiv());
+}
+fotoKnapp.addEventListener('click',async()=>{
+  if(Foto.aktiv()){Foto.av();say('Rekordfoto avstängt.');}
+  else{
+    try{await Foto.slaPa();say('Rekordfoto på. En bild tas när rundan tar slut.');}
+    catch(error){say(`${Foto.felText(error)} Poängen sparas ändå, utan bild.`);}
+  }
+  fotoEtikett();
+});
+if(!Foto.harStod()){fotoKnapp.disabled=true;fotoKnapp.title='Kameran kräver https eller localhost';}
+fotoEtikett();
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&Foto.aktiv()){Foto.av();fotoEtikett();}});
 document.querySelector('#start').addEventListener('click',start);
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&playing&&!over){paused=true;held.clear();repeat.dir=0;say('Pausat när du lämnade fliken. Tryck P för att fortsätta.');}
