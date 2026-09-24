@@ -1,6 +1,6 @@
 # Legion TD Vibe – speldesign och bygguppdrag
 
-Version 2.0 · 24 september 2026 · Projekt: `C:\work\b3vibe`
+Version 3.0 · 24 september 2026 · Projekt: `C:\work\b3vibe`
 
 ## 1. Uppdrag till byggagenten
 
@@ -13,6 +13,8 @@ Detta dokument är byggunderlaget, inte en rapport om genomförd implementation 
 - Spelet heter **Legion TD Vibe**.
 - Bloons-liknande bandesign: fasta torn, synliga projektiler och fiender som följer banan.
 - Fantasifulla, illustrerade torn som laddas från riktiga bildfiler. CSS används för gränssnittet.
+- Varje torn har separata uppgraderingar för skada och räckvidd, med tydliga priser och effekter.
+- Varje torn förklaras i spelet med roll, attack, specialeffekt, styrkor och placeringstips.
 - Döda fiender ger pengar.
 - Varje våg blir svårare.
 - Sparade pengar ger 5 % ränta per runda.
@@ -27,7 +29,7 @@ Spelnamn: **Legion TD Vibe**. En rosa elefantkung försvarar sitt ramenkök med 
 
 Kärnan är att välja mellan starkare torn nu och mer ränta senare. Placeringen spelar roll genom hur länge tornen kan skjuta på banan: innerkurvor ger lång täckning, raka sträckor passar prickskyttar och stödtorn förstärker grupper. Fiender stannar aldrig för att slåss mot tornen.
 
-Första versionen är ett lokalt enspelarspel med en bana, sex enhetstyper, 20 vågor och ungefär 15–25 minuters speltid. Ingen inloggning eller installation krävs. Fler spelare, skickade fiender, separat arbetarekonomi och permanenta styrkeuppgraderingar ligger utanför första versionen.
+Första versionen är ett lokalt enspelarspel med en bana, sex enhetstyper, 20 vågor och ungefär 15–25 minuters speltid. Ingen inloggning eller installation krävs. Fler spelare, skickade fiender, separat arbetarekonomi och styrkeuppgraderingar som följer med mellan matcher ligger utanför första versionen. De separata skade- och räckviddsuppgraderingarna inom en match ingår.
 
 ## 3. Spelloop
 
@@ -77,7 +79,7 @@ En färgstark bana sedd snett ovanifrån, med logik i ett 12 × 9-rutnät. En ty
 
 Varje torn har en fast position från köp till försäljning. Bara vapendelen får vridas eller animeras när det skjuter. Fiender går längs ordnade vägsegment och deras framsteg mäts som tillryggalagd sträcka. De varken söker, angriper eller kolliderar med tornen. Ingen tornhälsa, närstrid eller läkning finns i regler, butik, statistik eller uppgraderingar.
 
-Visa tornets räckvidd vid placering och markering. Anfallstorn kan välja målprioritet **Först**, **Sist**, **Starkast** eller **Närmast**. Först är standard och betyder längst fram längs banan, inte närmast tornet. Starkast betyder högst aktuell hälsa. Använd lägst spawn-ID vid lika värden. Välj bland levande mål inom räckvidd vid varje skott; varje avfyrad projektil låser sitt mål.
+Visa tornets räckvidd vid placering och markering. Anfallstorn kan välja målprioritet **Först**, **Sist**, **Starkast** eller **Närmast**. Först är standard och betyder längst fram längs banan, inte närmast tornet. Starkast betyder högst aktuell hälsa. Alla sex torn, inklusive Ramenmunken, har en egen attack och kan välja målprioritet. Använd lägst spawn-ID vid lika värden. Välj bland levande mål inom räckvidd vid varje skott; varje avfyrad projektil låser sitt mål.
 
 Projektiler ska synas och skadan registreras vid träff, inte vid avfyrning. För första versionen kan skott följa målet med högre fart än den snabbaste fienden. Om målet redan dött eller läckt försvinner skottet utan ny belöning. Ett mål som lämnar räckvidden kan fortfarande träffas av ett redan avfyrat skott. Ingen vänlig eld. Områdesskada beräknas kring träffpunkten, en gång per projektil och fiende.
 
@@ -85,39 +87,136 @@ Begränsa en våg till 120 sekunder simuleringstid. Kvarvarande fiender räknas 
 
 Vanliga fiender tar ett kungaliv när de läcker. Bossar tar fem. En död eller läckt fiende kan bara avräknas en gång. Alla anfallstorn kan träffa alla fiendetyper i första versionen.
 
-## 6. Torn – roller, utseende och första balansutkast
+## 6. Torn, uppgraderingar och grafik
 
-Avstånd mäts i rutor. Skada är per projektil och intervall i sekunder. Värdena utgår från befintliga torndata men är inte ett påstående om färdig balans. Alla anfall är avståndsattacker. Stödtornet skjuter inte; dess synliga aura förklarar funktionen.
+### 6.1 Grundvärden och gemensamma regler
 
-| Torn | Pris | Skada / intervall | Räckvidd | Funktion och bildidé |
-|---|---:|---:|---:|---|
-| Zebravakt | 100 | 20 / 0,9 | 2,6 | Billig snabbskytt; zebra i kopparrustning på rund sockel med dubbel bambupipa |
-| Nudelskytt | 150 | 55 / 1,6 | 6,0 | Prickskytt; lång nudelarmborst, kikarsikte och turkos halsduk |
-| Buljongkanon | 220 | 40 / 1,5 | 3,0 | Explosiv buljongkula, radie 1,2; stor mässingsgryta med tryckmätare och ånga |
-| Chilikastare | 260 | 26 / 0,7 | 3,2 | Snabb områdesskada, radie 0,9; röd drakformad chilikanon med glödande magasin |
-| Iskock | 200 | 14 / 1,2 | 3,0 | Isprojektil bromsar 35 % i 2 sekunder; kristallkittel, frost och stor kockmössa |
-| Ramenmunk | 240 | Ingen attack | 2,5 aura | +25 % skada och +15 % räckvidd för närliggande anfallstorn; svävande nudelskål och gyllene runring |
+Varje torn har nu två **separata uppgraderingsspår: Skada och Räckvidd**, vardera från nivå 0 till 3. Båda kan maxas på samma torn. Detta ersätter helt den tidigare engångsuppgraderingen. Ramenmunken får också en egen avståndsattack så att skadeuppgraderingen gör konkret skada för samtliga sex torn; dess stödaura finns kvar.
 
-Explosioner ger full skada inom angiven radie i första versionen. Kyla påverkar rörelsefart; flera effekter förnyar varaktigheten men staplas inte. Bossar bromsas 12 %. Pansarreduktion appliceras efter tornets skadebonus, och slutlig skada avrundas en gång till närmaste heltal med minimum 1.
+Alla värden nedan är ett konkret balansutkast som ska provspelas. Avstånd mäts i rutor, skada per projektil och intervall i sekunder. DPS betyder skada per sekund mot ett enda mål, före pansar och stöd, vid kontinuerlig eld. Områdesskada kan ge högre sammanlagd skada mot flera fiender.
 
-Ramenmunkens aura avgörs av tornens centrumavstånd och använder alltid munkens egen auraradie. Auran påverkar inte andra stödtorn eller munken själv. Flera munkar staplas inte: använd den starkaste tillämpliga bonusen. Skadebonus låses när projektilen avfyras. Visa vilka torn som förstärks när munken markeras.
+| Torn | Grundpris | Grundskada | Intervall | Grundräckvidd | Grund-DPS | Specialitet |
+|---|---:|---:|---:|---:|---:|---|
+| Zebravakt | 100 | 20 | 0,9 | 2,6 | 22,2 | Billig och jämn enmålsskada |
+| Nudelskytt | 150 | 55 | 1,6 | 6,0 | 34,4 | Lång räckvidd, kraftiga enstaka träffar |
+| Buljongkanon | 220 | 40 | 1,5 | 3,0 | 26,7 | Explosion med radie 1,2 |
+| Chilikastare | 260 | 26 | 0,7 | 3,2 | 37,1 | Snabba explosioner med radie 0,9 |
+| Iskock | 200 | 14 | 1,2 | 3,0 | 11,7 | Kyla: −35 % rörelsefart i 2 sekunder |
+| Ramenmunk | 240 | 12 | 1,5 | 2,5 | 8,0 | Egen attack och aura som förstärker anfall |
 
-Varje anfallstorn kan uppgraderas en gång i byggfas för 150 % av grundpriset och får dubbel grundskada. Intervall, räckvidd och specialeffekter behålls. Munken uppgraderas för 360 Ramen till +40 % skada och +20 % räckvidd, med samma auraradie. Visa faktiska värden och en tydligt förändrad tornbild efter uppgraderingen.
+Explosioner ger full skada till varje levande fiende inom radien, inklusive huvudmålet exakt en gång. Kyla staplas inte; en ny träff förnyar varaktigheten. Bossar bromsas 12 %. Isprojektilens skada ökar med skadeuppgraderingar, men köldprocent och varaktighet behålls. Chilikastaren har ingen dold brännskada över tid i denna version.
 
-Torn går inte att flytta efter placering. Försäljning ger `floor(0,70 × totalt betalt för tornet inklusive uppgradering)`, begränsat av saldotaket. Köp, uppgradering och försäljning är låsta under strid. Visa återbetalningen innan försäljning utförs. Att sälja och köpa på en annan plats är det avsiktliga sättet att ändra placering.
+Ramenmunkens aura ger +25 % skada och +15 % attackräckvidd till de fem andra torntyperna. Munkar förstärker varken sig själva eller andra munkar. Flera auror staplas inte. Munken har egen attackräckvidd och auraradie; båda börjar på 2,5 rutor och ökar med munkens räckviddsspår. Skadespåret förbättrar munkens egen projektil, inte aurans +25 %. Visa detta uttryckligen i panelen. Avstånd för auran mäts mellan tornens centrum och kräver ingen fri sikt.
 
-### Bildkrav till byggagenten
+### 6.2 Så fungerar varje torn – text och spelbeteende
 
-Målet är ett sammanhängande, illustrerat spelutseende med tydliga material, ljus, skuggor och karaktär. Använd färgstark fantasy i snett ovanifrånperspektiv. Hämta inspiration från läsbarheten och detaljnivån i välgjorda tower defense-spel och skapa en egen uppsättning figurer.
+Varje torn ska få ett läsbart kort i butiken, en utvecklad informationspanel och en sida i en liten **Tornguide**. Beskrivningarna nedan ska finnas tillgängliga inne i spelet, inte bara i dokumentationen. Nybörjaren ska kunna förstå vad tornet gör före ett köp.
 
-- Leverera egna genererade/illustrerade PNG- eller WebP-bilder med transparent bakgrund för alla sex torn i grundversion och uppgraderad version: minst 12 tornbilder. Befintliga SVG-filer kan användas som skisser eller tillfälliga platshållare; slutleveransen ska uppfylla den illustrerade detaljnivån, inte bara byta filformat på enkla former.
-- Skapa separata bilder för de sex fiendetyperna, kungen och minst fem projektiltyper. Lägg till en illustrerad banbakgrund med tydligt synlig stig och byggbar mark.
-- Tornbilder bör vara cirka 512 × 512 pixlar före nedskalning, med gemensam baslinje, perspektiv och ljusriktning. Kontrollera läsbarheten vid faktisk spelstorlek, ungefär 48–80 pixlar. Inga texter, knappar eller räckviddsringar inbakade i bilderna.
-- Gör silhuetterna olika: lång pipa för prickskytt, bred gryta för kanon, spetsig kristall för is och rund runring för stöd. Uppgraderingar ska ändra utrustning och form, inte bara färg eller storlek.
-- Använd bilder i både butik och spelplan. CSS sköter layout och gränssnitt. Canvas kan rita bildfiler, räckviddsringar och effekter, men huvudfigurerna ska komma från bildfiler.
-- Rekyl, kort mynningsblixt, träffeffekt och mjuk skugga ger liv. Stödtorn visar en diskret pulserande aura. Effekter ska inte dölja fiender eller göra det svårt att läsa banan.
-- Lägg till `bilder/manifest.json` med bildväg, roll och ursprung. För material från ett tillgångsbibliotek ska källa, licens och eventuell attribution dokumenteras. För eget eller genererat material anges detta. Kopiera inte figurer eller bildfiler ur andra spel som genväg; använd egen eller uttryckligen licensierad grafik.
-- Ladda bilderna innan matchen startar och visa ett begripligt fel om en fil saknas. Behåll filer lokalt så spelet fungerar utan externa bildanrop. Komprimera bilder och återanvänd inlästa resurser; undvik att ladda om bilder varje bildruta.
+**Zebravakt – den pålitliga snabbskytten**
+
+Butikstext: ”Billig skytt som träffar en fiende åt gången. Bra första torn vid en kurva.” Zebran skjuter en bambupil var 0,9 sekund; den dubbla pipan är visuell och betyder inte två träffar. Varje pil träffar ett mål utan genomslag. Tornet är billigt att sprida ut och bra för att fånga snabba fiender som överlever andra torn. Det har kort räckvidd och tappar effektivitet mot täta svärmar eller pansar. Placera nära en innerkurva där samma fiende passerar inom räckvidden länge. Standardvalet Först fungerar bra. Skada passar när många fiender överlever med lite hälsa; räckvidd passar när tornet står sysslolöst medan fiender går precis utanför cirkeln.
+
+Bild: en zebra med tydliga svartvita ränder, läderremmar, kopparaxelskydd och ett bambuvapen på en låg stenplattform. Synliga skruvar och sammanbundna bamburör ger närbildsdetalj. Vid skott följs en kort rekyl av en liten dammpuff. Skadespår: kopparspetsar → förstärkt laddare → guldförstärkt bambukanon. Räckviddsspår: litet sikte → linsrör → upphöjt spanarperiskop. Behåll antalet faktiska projektiler och attackintervallet genom alla nivåer.
+
+**Nudelskytt – prickskytten**
+
+Butikstext: ”Lång räckvidd och hårda enstaka träffar. Bra mot eliter och bossar.” En koncentrerad nudelbult ger 55 grundskada var 1,6 sekund. Bulten går inte igenom flera fiender. Rekommenderad målprioritet är Starkast när stora fiender blandas med svagare; valet görs av spelaren och ändras inte automatiskt. Tornet kan täcka flera sträckor från mitten av kartan. Det skjuter långsamt och kan slösa stor skada på en nästan död svärmfiende. Skada ökar bosskadan; räckvidd ger mer tid att skjuta, men hjälper inte när hela banan redan täcks.
+
+Bild: en lång lackerad nudelarmborst med blankt glas i siktet, lindad trästock, mässingsbeslag och en skytt med turkos halsduk. Förspänd sträng och synlig bult gör funktionen begriplig. Skadespår: stålfjäder → dubbla spännarmar → lysande kärna i bultmagasinet. Räckviddsspår: kort kikarsikte → längre linsuppsättning → stort guldinramat observatörssikte. En skarp rekyl och tunn projektilstrimma skiljer skottet från Zebravaktens.
+
+**Buljongkanon – den tunga sprängaren**
+
+Butikstext: ”Långsamma buljongbomber skadar alla fiender nära träffen. Bra mot täta grupper.” Varje kula ger 40 grundskada inom 1,2 rutor från träffpunkten. Alla inom området kan skadas oavsett vilket mål som valdes. Placera vid en kurva eller nära en Iskock, så fler fiender hinner samlas. Kanonen är svagare mot glest utspridda mål än mot en grupp. Skadespåret ökar varje fiendes träffskada. Räckviddsspåret ökar hur långt bort kanonen kan välja mål; explosionsradien förblir 1,2.
+
+Bild: tung mässingsgryta på ett brett lavettstativ, nitar, keramisk insida, ångventiler, tryckmätare och buljong som lyser genom ett inspektionsfönster. Basen står fast medan vapnet siktar. Skadespår: förstärkt gryta → dubbla tryckkammare → guldklädd övertryckskärna. Räckviddsspår: justerbart sikte → lyftarm för eldröret → optisk avståndsmätare. Kulan har en kort visuellt välvd bana men följer samma träffregler som andra skott. Explosionen blir en snabb buljongstänk-ring som bleknar innan den döljer nästa fiende.
+
+**Chilikastare – svärmrensaren**
+
+Butikstext: ”Snabba chiliskott med liten explosion. Håller trycket uppe mot många svaga fiender.” Varje skott ger 26 grundskada i en radie på 0,9 rutor, var 0,7 sekund. Tornet skjuter tätare än Buljongkanonen men har mindre sprängradie. Det är starkt där fiender passerar samlade, särskilt tillsammans med kyla. Det kostar mer än grundtornen och ersätter inte prickskyttens långa räckvidd. Skada gör varje explosion farligare; räckvidd håller fiender kvar i eldzonen längre. Ingen extra eldskada får räknas utifrån den dekorativa glöden.
+
+Bild: röd drakformad pipa med svarta järnringar, chilimagasin, glödande orange kammare och brända kanter. Drakens käft visar tydligt skjutriktningen. Skadespår: större chilipatroner → glödande tryckkärl → flerskiktad drakkäft. Räckviddsspår: nosring med sikte → förlängd pipinsats → upphöjd riktlins. Små gnistor, snabb rekyl och korta orangeröda träffblommor; inga stora eldväggar.
+
+**Iskock – kontrolltornet**
+
+Butikstext: ”Bromsar fienden så andra torn hinner skjuta mer. Ger också lite direkt skada.” En iskristall ger 14 grundskada och sänker målets rörelsefart 35 % i 2 sekunder. Bossar bromsas 12 %. Flera Iskockar gör inte bromsningen starkare, men kan hålla den aktiv på fler mål. Placera tidigt i ett område som täcks av flera skadetorn. Ensamt har tornet låg skada och kan inte bära försvaret. Skadespåret höjer direkt skada; räckvidd gör att bromsningen kan börja tidigare. Kyla påverkar inte fiendebelöning, pansar eller kungaliv vid läcka.
+
+Bild: en kock med stor vit mössa bakom en blå kristallkittel, silverringar, frostiga beslag och ett tydligt riktat ismunstycke. Skadespår: större iskärna → flerskiktad kristall → ljusblå prismakärna. Räckviddsspår: fokusring → längre kristallmunstycke → tredelad fokuseringslins. Projektilen har en kort iskall svans. Träffad fiende får blå kant och en snöflingesymbol som försvinner när kylan löper ut; den ska aldrig se helt frusen ut när den fortfarande rör sig.
+
+**Ramenmunk – stödet med en egen attack**
+
+Butikstext: ”Förstärker närliggande torn och skjuter små energikulor. Bäst i en grupp.” Munken ger +25 % skada och +15 % attackräckvidd till närliggande anfallstorn. Dess egen lilla nudelorb gör 12 grundskada var 1,5 sekund. Placera där auran når flera torn, inte som ensam första försvarare. Auran behöver inget fiendemål och fungerar hela tiden när de andra tornen är inom auraradien. Skadespåret ökar bara munkens egna skott; räckvidd ökar både munkens skjuträckvidd och området där andra torn kan få stöd. Bonusprocenten och andra torns explosionsradie förändras inte.
+
+Bild: liten munk i krämfärgade och violetta kläder på en rund sockel, svävande nudelskål, bönepärlor, två små lyktor och tydliga guldrunor. Skadespår: lysande pärla → dubbla fokuspärlor → gyllene skål med energikärna. Räckviddsspår: liten rökelsehållare → större runbåge → tredelad lyktkrans. Den diskreta auran visas permanent nära sockeln; hela den funktionella auracirkeln visas vid markering. Skottet ser ut som en liten gyllene nudelorb. Påverkade torn får en liten stödsymbol, inte en kontinuerlig vägg av ljusstrålar.
+
+### 6.3 Separata skade- och räckviddsuppgraderingar
+
+Uppgraderingar köps i byggfas för Ramen. Varje spår köps stegvis: 0 → 1 → 2 → 3. Det finns inget krav på att köpa det andra spåret och ingen gemensam gräns på tre köp. Exempel: ett torn får vara Skada 3 / Räckvidd 3. Uppgraderingar gäller bara det enskilda tornet och bara den pågående matchen.
+
+| Nivå | Skademultiplikator från grundvärdet | Räckviddsmultiplikator från grundvärdet |
+|---|---:|---:|
+| 0 | ×1,00 | ×1,00 |
+| 1 | ×1,40 | ×1,15 |
+| 2 | ×1,90 | ×1,30 |
+| 3 | ×2,60 | ×1,50 |
+
+Multiplikatorerna avser grundvärdet, inte föregående nivå. Attackintervall, projektilfart, explosionsradie, köldeffekt och aurans bonusprocent ändras inte av dessa spår. Detta gör att varje knapp har en tydlig och förutsägbar funktion.
+
+Priset för nästa steg beräknas från tornets grundpris och avrundas upp till närmaste 5 Ramen: `5 × ceil(grundpris × kostnadsfaktor / 5)`. Skadesteg 1/2/3 använder faktorerna 0,60 / 1,00 / 1,60. Räckviddssteg 1/2/3 använder 0,40 / 0,70 / 1,10. Tabellen visar kostnaden för varje enskilt köp, inte totalsumman.
+
+| Torn | Skada 1 | Skada 2 | Skada 3 | Räckvidd 1 | Räckvidd 2 | Räckvidd 3 |
+|---|---:|---:|---:|---:|---:|---:|
+| Zebravakt | 60 | 100 | 160 | 40 | 70 | 110 |
+| Nudelskytt | 90 | 150 | 240 | 60 | 105 | 165 |
+| Buljongkanon | 135 | 220 | 355 | 90 | 155 | 245 |
+| Chilikastare | 160 | 260 | 420 | 105 | 185 | 290 |
+| Iskock | 120 | 200 | 320 | 80 | 140 | 220 |
+| Ramenmunk | 145 | 240 | 385 | 100 | 170 | 265 |
+
+Skadevärdet utan aura visas som `round(grundskada × skademultiplikator)`. I striden används det oavrundade värdet fram till slutlig avrundning efter aura och pansar. En skada på 104,5 avrundas till 105. Räckvidden beräknas med full precision och visas med upp till två decimaler.
+
+```text
+skada_före_pansar = grundskada × skademultiplikator × (stödd ? 1,25 : 1)
+träffskada = max(1, round(skada_före_pansar × (pansrad ? 0,75 : 1)))
+attackräckvidd = grundräckvidd × räckviddsmultiplikator × (stödd ? 1,15 : 1)
+munkens_auraradie = 2,5 × munkens_räckviddsmultiplikator
+```
+
+Skada inklusive aura låses vid avfyrning. Pansar beräknas för varje träffad fiende. Aura räknas om efter köp, uppgradering eller försäljning. Den räckvidd som används för målval ska vara samma som cirkeln visar. Ramenmunkar kan aldrig få `stödd = true`.
+
+Exempel: Zebravakt med Skada 1 och Räckvidd 1 gör 28 skada och når 2,99 rutor utan aura. Totalt betalt är 100 + 60 + 40 = 200 Ramen. Med munkstöd gör den 35 skada mot en vanlig fiende och 26 mot pansar. Räckvidden blir 3,4385 rutor, visad som 3,44. Skada 3 ger 52 utan aura; Räckvidd 3 ger 3,90 utan aura.
+
+Exempel för munken: Skada 1 ger 17 visad projektilskada efter avrundning. Räckvidd 1 ger både skjuträckvidd och auraradie 2,875, visat som 2,88. Stöd till andra torn förblir +25 % skada och +15 % räckvidd. Skada 3 / Räckvidd 3 ger 31 visad egen skada och 3,75 i båda räckvidderna.
+
+Efter nivå 3 visar respektive knapp **MAX NIVÅ** och kan inte debitera fler pengar. Saknas Ramen visar knappen exempelvis **Saknar 35 Ramen**. Under strid visar båda **Tillgängligt mellan vågor**. Validera fas, tornets existens, aktuell nivå och saldo igen när köpet utförs så att dubbelklick inte köper en osynlig extra nivå.
+
+Torn kan inte flyttas efter placering. Försäljning ger `floor(0,70 × totalt faktiskt betalt för tornet och båda uppgraderingsspåren)`, begränsat av saldotaket. Visa exakt återbetalning. Zebravakten i exemplet säljs för 140. Sålda nivåer överförs inte till nästa torn.
+
+### 6.4 Grafik – detaljerad art direction och leveranskrav
+
+**Övergripande känsla.** Spelet ska se ut som en illustrerad liten fantasyvärld med ramenkök och uppfinningsrika försvarsmaskiner. Använd samma snett ovanifrån-perspektiv för bana, torn och fiender. Formerna ska vara handmålade och tydliga: varm sten, träfibrer, kopparnitar, blank keramik, frostat glas och tygveck. Ljuset kommer från övre vänster. Skuggor är mjuka och förankrar figurerna i marken. Egna bilder eller licensierade tillgångar används, med gemensam stil.
+
+**Färg och läsbarhet.** Banan har dämpade mossgröna och varma sandfärger; tornens funktionsfärger är koppar/vitt, turkos, mässing, chili­rött, isblått och violett/guld. Hot och läckor signaleras med form, ikon och färg. Markeringar ska inte blandas ihop med projektiler. Små detaljer syns i porträttet, medan stor form och kontrast gör tornet identifierbart på spelplanen. Lägg inte så mycket mönster på marken att fiender försvinner.
+
+**Miljön.** Rita en sammanhängande bakgrund med stenlagd stig, nedtrampade kanter, grästofsar, låga stenmurar, kryddodlingar, bambu, små lyktor och ett ramenkök vid målet. Byggbar mark ska vara lugnare än dekorationerna. Ingången har en port och tydlig riktning. Köket får takpannor, trästolpar, hängande menyplaketter utan liten oläsbar text, ångande gryta och den rosa elefantkungen. Dekoration utanför banan får aldrig se ut som ledig byggmark om den inte är byggbar. Den målade stigens position måste stämma med logikens vägsegment och skalas tillsammans med dem.
+
+**Torngrafik.** Leverera PNG/WebP med riktig transparens. Skapa per torn en fast kropp/bas, fyra vapennivåer (0–3) och tre räckviddstillbehör (1–3; nivå 0 saknar extra tillbehör). Det ger åtta lagerbilder per torn, totalt 48, som kan komponeras till alla 16 kombinationer av Skada 0–3 och Räckvidd 0–3. Detta ersätter version 2:s krav på bara en grundbild och en uppgraderad bild. Alternativt får färdiga kompositbilder levereras för samtliga 16 kombinationer per torn. Använd inte en bild som låtsas visa en uppgradering i det andra spåret.
+
+Lager ska ha gemensamt 512 × 512-format, baslinje, vridpunkt och marginaler. Manifestet anger vilka delar som roteras och vilka som står fast. Kroppen och ansiktet ska inte snurra som en platt bricka när vapnet siktar. Om vapnets perspektiv kräver riktningsbilder, leverera åtta riktningar och välj närmaste riktning vid rendering. Vapnet ska visuellt peka mot skottets riktning och projektilen börja vid mynningen. Separata porträtt eller noggrant beskurna kompositer används i butiken.
+
+**Fiender och bossar.** Skapa sex visuellt åtskilda grundtyper: rund degvarelse för standard, smal chililöpare för snabb, små ärt-/nudelknyten för svärm, sköldförsedd järngryta för pansar och högre maskerad köksväktare för elit. Bossar får fyra egna utseenden: Diskmonstret, Chilikrabban, Soppdraken och Den Hungrige Kocken. Samma bossregler kan användas, men varje boss ska ha egen silhuett och porträtt. Visa gång med minst fyra bildrutor eller en tydlig riggad animation. Fiendens markskugga ska följa dess verkliga position; hälsomätaren sitter över figuren och kan komprimeras i stora svärmar.
+
+**Projektiler och effekter.** Leverera sex projektilbilder: bambupil, nudelbult, buljongkula, chiliskott, iskristall och gyllene nudelorb. Skapa separata korta träffeffekter för fysisk träff, buljongstänk, chili och frost. En enda projektil får bara ge en skadehändelse även om effekten har många bildrutor. Ånga, damm och gnistor är dekorativa. Budgetera högst cirka 120 dekorativa partiklar samtidigt; när gränsen nås tas äldre dekoration bort, aldrig projektiler som fortfarande påverkar striden.
+
+**Animation.** Små tomgångsrörelser på 1–2 sekunder: ånga från grytan, svävande skål och svagt glödande kristall. Vid skott: 80–140 ms rekyl och 60–100 ms mynningsblixt. Vid träff: 150–250 ms effekt, följd av kort upplösning vid fiendedöd. Köp placerar tornet med en kort 150 ms nedtonad landning. Uppgradering ger 300–450 ms skimmer och visar direkt den nya utrustningen. Animationstid får aldrig fördröja reglernas träff, köp eller debitering. 2× spelhastighet skalar stridsanimationerna tillsammans med simuleringen.
+
+**Information över grafiken.** Markerat torn får ren kontur, synlig räckvidd och små separata nivåsymboler för svärd/Skada och kikarsikte/Räckvidd. Använd siffra 0–3, inte bara färg. När en räckviddsuppgradering förhandsvisas visas nuvarande cirkel med heldragen kant och nästa med streckad kant. Munken visar olika linjestilar för attack och aura om de någonsin skiljer sig åt. Undvik flytande skadesiffror för varje träff i stora svärmar; de kan vara ett avstängningsbart tillval.
+
+**Gränssnitt.** Butiken får tydliga illustrerade porträtt, svensk rolltext, pris och primär statistik. Informationspanelen använder en ljus eller mörk enfärgad yta som inte konkurrerar med bilderna. Ett stort porträtt visar vapnets material och uppgraderingar. Använd verklig text ovanpå gränssnittet; baka inte in text, priser eller siffror i bildfiler. Menyknappar ska fungera även om en dekorativ bild saknas.
+
+**Leverans och prestanda.** Lägg bildfiler lokalt under spelets `bilder/`. `manifest.json` anger ID, filväg, torntyp, spår/nivå, dimensioner, vridpunkt, bildrutor och ursprung; för externa tillgångar även källa/licens och attribution. Håll basbilder kring 512 px, projektiler kring 64–128 px och bakgrund högst 2048 px på längsta sidan om inget test motiverar större. Komprimera före leverans; sikta på högst 15 MB initiala bildresurser. Sammansätt lager när utseendet ändras och återanvänd resultatet. Undvik att skapa nya fullstora bilder varje bildruta.
+
+Förladda obligatoriska spelbilder och visa laddningsstatus samt Försök igen vid saknad fil. Lokalt spel kräver inga externa bildanrop. Utvecklingsplatshållare får inte stå kvar som slutlig huvudgrafik. Kontrollera rena transparenta kanter utan vit halo, samma perspektiv och inga avklippta vapen i samtliga uppgraderingskombinationer. Testa vid faktisk spelstorlek 48–80 px, på 1×/2× pixeltäthet och i smal mobilvy. Läget **Minskade effekter** stänger av dekorativa partiklar och starka blixtar men behåller skott, mål, kyla och funktionella räckviddsmarkeringar.
+
 
 ## 7. Vågor och progression
 
@@ -183,13 +282,39 @@ Bygg inte alla utbyggnader på en gång. Prioritera en tydlig ekonomiloop, läsb
 
 Överst: Ramen och tak, låst/förväntad ränta, kungaliv samt våg X/20. Visa alltid aktuell fas. Vid sidan av eller under planen: butik med pris, statistik och tydligt valt föremål. Nästa vågs egenskaper ska vara synliga i byggfas.
 
-Mus och touch: välj enhet i butiken och klicka/tryck på en ledig ruta. Välj placerat torn för att se målprioritet, Uppgradera och Sälj. Visa räckvidd och eventuella aurabonusar. En Avbryt-knapp avbryter placering. Ogiltiga köp eller placeringar visar ett begripligt meddelande utan att dra pengar.
+Mus och touch: välj enhet i butiken och klicka/tryck på en ledig ruta. Välj placerat torn för att se målprioritet, Uppgradera skada, Uppgradera räckvidd och Sälj. Visa räckvidd och eventuella aurabonusar. En Avbryt-knapp avbryter placering. Ogiltiga köp eller placeringar visar ett begripligt meddelande utan att dra pengar.
 
 Tangentbord: 1–6 väljer enhet, piltangenter flyttar rutmarkören, Enter placerar eller väljer, mellanslag startar nästa våg i byggfas, P pausar. Genvägar ska inte ta över när fokus ligger i ett inmatningsfält eller orsaka dubbla knapptryckningar. Escape behåller portalens funktion för att återgå till huvudmenyn; använd inte Escape för att avbryta placering.
 
 Knappar: **Starta våg**, **Pausa/Fortsätt**, **1×/2×**, **Starta om**, **Till huvudmenyn**. Hastighetsvalet påverkar hela simuleringen lika och ändrar inga belopp eller sannolikheter. Döljd flik pausar spelet; återkomst kräver Fortsätt. Visa tydligt att en omstart raderar pågående match och kräv bekräftelse om matchen är igång.
 
 Använd stora touchytor, läsbara kontraster och symboler tillsammans med färger. Ljud kan slås av. Layouten ska fungera på dator och mobil; butiken får flyttas under planen. Låt HTML-knappar och statusmeddelanden bära viktig information även om striden ritas i canvas.
+
+### Tornpanelen och hjälpen i spelet
+
+Markering öppnar en panel med tornets porträtt, namn och roll överst. Visa en kort förklaring i vanlig svenska, följd av **Skada per träff**, **Attackintervall**, **Räckvidd**, **Specialeffekt** och **Målprioritet**. Visa egen statistik och bonus från Ramenmunk separat. DPS ska märkas som teoretisk enmålsskada per sekund; det är inte garanterad faktisk skada. För munken visas dessutom **Aurastyrka**, **Auraradie** och antal berörda torn.
+
+Två separata uppgraderingskort visar aktuell nivå av 3, nästa värde, pris, aktuell köpmöjlighet och hur köpet påverkar räntan. Båda går att använda via mus, tangentbord och touch. Knappen köper precis den visade nästa nivån. Efter köp uppdateras panel, saldo, förväntad ränta, tornbild och räckvidd direkt. Det andra spårets nivå behålls.
+
+Exempel för en Zebravakt på nivå 0/0 utan stöd:
+
+```text
+ZEBRAVAKT · Snabbskytt
+Träffar en fiende åt gången. Bra vid kurvor.
+Skada 20 · Skott var 0,9 s · Räckvidd 2,60 rutor
+Mål: Först
+
+SKADA 0/3                 RÄCKVIDD 0/3
+Nästa: 20 → 28            Nästa: 2,60 → 2,99
+Pris: 60 Ramen            Pris: 40 Ramen
+[Uppgradera skada]        [Uppgradera räckvidd]
+
+[Mer om tornet]           [Sälj: 70 Ramen]
+```
+
+Räntepåverkan beräknas från faktiskt saldo: `floor(saldo × 0,05) − floor((saldo − pris) × 0,05)`. Visa skillnaden före saldotak och visa den bara för köp som spelaren har råd med. Vid 500 Ramen kostar skadeuppgraderingen 60 och minskar beräknad ränta från 25 till 22. Säljbeloppet avser tornet i dess aktuella skick; panelen visar eventuell begränsning vid saldotaket.
+
+**Mer om tornet** öppnar den fullständiga förklaringen från avsnitt 6.2, inklusive vad uppgraderingarna inte förändrar. Hjälp som öppnas under strid pausar simuleringen och visar en Fortsätt-knapp. På mobil visas panelen under planen eller som en hopfällbar nederpanel; stängning lämnar tornen och matchen oförändrade. Första gången spelaren markerar ett torn ges kort hjälp: ”Skada gör varje träff starkare. Räckvidd låter tornet skjuta längre.”
 
 ## 10. Integration i det befintliga projektet
 
@@ -231,7 +356,9 @@ Separera tillstånden byggfas, strid, vågresultat, paus, vinst och förlust. Pa
 
 Håll definitioner för enheter, fiender och vågor i samlad balansdata. Separera tornens fasta positioner från fiendernas hälsa och framsteg på banan samt projektilernas tillstånd. Rensa gamla fält och logik för tornhälsa, förflyttning, närstrid och läkning, även om de finns kvar i den äldre implementationen. Använd fast tidssteg för simuleringen och `requestAnimationFrame` för rendering; undvik att stridshastighet beror på skärmens bildfrekvens. Återupptagning ska inte spela ikapp dold tid.
 
-Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fungerande strid, vågövergångar, ränta och tak, sex enheter och bossar, mobilstyrning och slutlig provspelning. Registrera den färdiga spelvägen i spellistan och kontrollera att öppning från portalen fungerar.
+Spara damageLevel och rangeLevel separat per torn samt faktiskt investerat belopp. Beräkna statistik från grunddata och nivåer vid behov i stället för att multiplicera redan uppgraderade värden igen. Använd samma beräkning för panel, räckviddscirkel och strid. Versionsmärk eventuell sparad tornstruktur; anta inte att äldre engångsuppgraderingar motsvarar nivåer i båda de nya spåren.
+
+Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fungerande strid, vågövergångar, ränta och tak, sex torn och bossar, båda uppgraderingsspåren, fullständig tornguide, illustrerade bilder och animationer, mobilstyrning och slutlig provspelning. Registrera den färdiga spelvägen i spellistan och kontrollera att öppning från portalen fungerar.
 
 ## 12. Klart när följande är verifierat
 
@@ -254,4 +381,13 @@ Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fun
 - Alla sex torn har tydligt olika illustrerade bildfiler och synligt ändrad grafik efter uppgradering. Bilderna fungerar i både butik och på planen, även i mobilstorlek. Inga saknade bildfiler eller oavsiktliga vita bakgrunder.
 - Bildernas ursprung finns i manifestet och spelet fungerar utan externa bildanrop. Den befintliga spelposten uppdateras i stället för att dupliceras om den redan finns i games.json.
 
-Automatisera främst ekonomi, engångsavräkning, målval och vågtillstånd. Använd verklig provspelning för läsbarhet, känsla och balans. Byggagentens slutrapport ska ange ändrade filer, kontroller som utförts, eventuella balansjusteringar och kvarstående begränsningar.
+- Varje torntyp kan köpas och uppgraderas oberoende till Skada 3 / Räckvidd 3. Skadeköp ändrar inte räckviddsnivån eller attackintervallet. Räckviddsköp ändrar inte skadenivån, explosionsradien eller köldeffekten.
+- Prislistan stämmer med avrundningsregeln. Köp utan täckning, köp under strid och köp över nivå 3 nekas utan debitering. Ett dubbelklick på en visad nivå ska inte tyst köpa nästa nivå också.
+- Zebravakt 1/1 kostar totalt 200, gör 28 grundskada, når 2,99 rutor och säljs för 140. Med stöd är vanlig träffskada 35, pansarträff 26 och räckvidd 3,4385. Panelen och faktisk strid stämmer överens.
+- Ramenmunkens båda spår påverkar dess egna skott; räckvidd påverkar även auran. Nivå 1/1 ger 17 visad egen skada och 2,875 i attackräckvidd/auraradie. Munkens stödprocent ändras inte och munkar förstärker aldrig varandra.
+- Om flera munkar når samma torn används stöd en gång. Försäljning av en munk tar bort bonusen när ingen annan når tornet. Testa även efter uppgraderad auraradie.
+- Testa samtliga 16 nivåpar visuellt per torn: rätt vapen, rätt räckviddstillbehör, inga avklippta bilder och korrekt vridpunkt. Kombination 3/0 får inte se ut som 3/3.
+- Butik och Tornguide innehåller en begriplig förklaring för alla sex torn, inklusive svagheter och placeringstips. Båda uppgraderingskorten visar pris och före/efter-värden även på mobil och vid tangentbordsstyrning.
+- Banan i bakgrundsbilden följer fiendernas verkliga väg. Detaljer, skuggor och animationer får inte dölja mål, räckvidd eller byggbar mark. Kontrollera reducerade effekter och största svärmen vid 2× hastighet.
+- Provspela både tidiga skadeuppgraderingar och tidiga räckviddsuppgraderingar. Kontrollera att fler billiga torn och färre uppgraderade torn båda har användbara roller; rapportera observerad balans utan att påstå att oprövade varianter är verifierade.
+Automatisera främst ekonomi, uppgraderingskostnader, statistikberäkning, engångsavräkning, målval och vågtillstånd. Använd verklig provspelning för läsbarhet, känsla och balans. Byggagentens slutrapport ska ange ändrade filer, kontroller som utförts, eventuella balansjusteringar och kvarstående begränsningar.

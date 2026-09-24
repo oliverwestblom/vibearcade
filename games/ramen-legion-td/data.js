@@ -10,9 +10,7 @@ const LTD = (() => {
   const NEDRAKNING = 10;        // visa nedräkning sista sekunderna
   const GRID_KOL = 12;
   const GRID_RAD = 9;
-  const UPPGRADERING_FAKTOR = 1.5;
   const FORSALJNING_ANDEL = 0.70;
-  const FORSVARARE_FART = 2.0;  // rutor per sekund
 
 
   // Banan slingrar sig fram och tillbaka: raderna 0, 2, 4 och 6 ar genomgaende
@@ -38,11 +36,7 @@ const LTD = (() => {
   function antalByggrutor() { return GRID_KOL * GRID_RAD - BANA_NYCKLAR.size; }
   const KUNG_RUTA = { kol: 10.5, rad: GRID_RAD - 1 };
 
-  // Tornen star stilla och skjuter, som i Bloons. Det gor tornhalsa, lakning
-  // och narstrid meningslosa, sa tre roller ar omgjorda: buljongtanken ar nu en
-  // kanon med sprangradie, ramenmunken ett stodtorn med aura i stallet for
-  // lakare, och zebravakten har fatt rackvidd att skjuta med. Fienderna
-  // angriper inte langre torn -- de bara gar och lacker.
+  // Fasta torn. Alla sex har egna skott; munkens aura staplas inte.
   const ENHETER = [
     { id: 'zebravakt', namn: 'Zebravakt', pris: 100, skada: 20, intervall: 0.9, rackvidd: 2.6,
       bild: 'zebravakt.svg', roll: 'Billig allround med kort pipa' },
@@ -54,21 +48,20 @@ const LTD = (() => {
       omrade: 0.9, bild: 'chilikastare.svg', roll: 'Snabb omradesskada mot svarmar' },
     { id: 'iskock', namn: 'Iskock', pris: 200, skada: 14, intervall: 1.2, rackvidd: 3.0,
       kyla: { andel: 0.35, bossAndel: 0.12, tid: 2 }, bild: 'iskock.svg', roll: 'Bromsar det den traffar' },
-    { id: 'ramenmunk', namn: 'Ramenmunk', pris: 240, skada: 0, intervall: 0, rackvidd: 2.5,
+    { id: 'ramenmunk', namn: 'Ramenmunk', pris: 240, skada: 12, intervall: 1.5, rackvidd: 2.5,
       stod: { skada: 0.25, rackvidd: 0.15 }, bild: 'ramenmunk.svg',
       roll: 'Stod: +25 % skada och +15 % rackvidd at torn intill' }
   ];
   const ENHET = Object.fromEntries(ENHETER.map(e => [e.id, e]));
 
-  // Fiendernas 'skada' anvands inte langre: torn kan inte angripas. Faltet
-  // star kvar for att vagtabellen i designdokumentet raknar med det.
+  // Fiender går längs banan och kan inte skada torn.
   const FIENDETYPER = {
-    standard: { namn: 'Standard', halsa: 1, skada: 1, fart: 1, belaning: 1, farg: '#b9a0ff', r: 13 },
-    snabb: { namn: 'Snabb', halsa: 0.7, skada: 0.8, fart: 1.8, belaning: 1, farg: '#8de06a', r: 11 },
-    svarm: { namn: 'Svärm', halsa: 0.45, skada: 0.5, fart: 1.2, belaning: 0.5, farg: '#ffe08a', r: 9 },
-    pansrad: { namn: 'Pansrad', halsa: 1.5, skada: 1, fart: 0.8, belaning: 1.5, farg: '#9aa7c7', r: 15, minskadSkada: 0.25 },
-    elit: { namn: 'Elit', halsa: 2, skada: 1.5, fart: 1, belaning: 2, farg: '#f76fae', r: 17 },
-    boss: { namn: 'Boss', halsa: 12, skada: 3, fart: 0.7, belaning: 10, farg: '#ff4f8b', r: 30, liv: 5, boss: true }
+    standard: { namn: 'Standard', halsa: 1, fart: 1, belaning: 1, farg: '#b9a0ff', r: 13 },
+    snabb: { namn: 'Snabb', halsa: 0.7, fart: 1.8, belaning: 1, farg: '#8de06a', r: 11 },
+    svarm: { namn: 'Svärm', halsa: 0.45, fart: 1.2, belaning: 0.5, farg: '#ffe08a', r: 9 },
+    pansrad: { namn: 'Pansrad', halsa: 1.5, fart: 0.8, belaning: 1.5, farg: '#9aa7c7', r: 15, minskadSkada: 0.25 },
+    elit: { namn: 'Elit', halsa: 2, fart: 1, belaning: 2, farg: '#f76fae', r: 17 },
+    boss: { namn: 'Boss', halsa: 12, fart: 0.7, belaning: 10, farg: '#ff4f8b', r: 30, liv: 5, boss: true }
   };
 
   const BOSSNAMN = { 5: 'Diskmonstret', 10: 'Chilikrabban', 15: 'Soppdraken', 20: 'Den Hungrige Kocken' };
@@ -86,21 +79,14 @@ const LTD = (() => {
   };
   const BLANDAT_CYKEL = ['standard', 'snabb', 'pansrad'];
 
-  // Tillvaxtfaktorer per vag: dokumentets foreslagna varden, behallna.
-  // Provspelning: med fritt jagande forsvarare var 1.16 for latt (bade ren
-  // zebravakt- och nudelskytt-armé vann felfritt). Orsaken var inte
-  // tillvaxten utan att hela armén sprang i klump mot narmaste fiende, sa
-  // placeringen saknade betydelse. Med kopplet i game.js (KOPPEL) haller
-  // raderna, och da ar 1.16 valbalanserat -- se README.
-  const TILLVAXT = { halsa: 1.16, skada: 1.12, antal: 2 };
+  // Balansutkast för fasta torn. Se tester och README för observerade resultat.
+  const TILLVAXT = { halsa: 1.16, antal: 2 };
 
   function basvarden(w) {
     return {
       vanligt: 8 + TILLVAXT.antal * w,
       halsa: Math.round(45 * Math.pow(TILLVAXT.halsa, w - 1)),
-      skada: Math.round(6 * Math.pow(TILLVAXT.skada, w - 1)),
       belaning: 10 + 2 * w,
-      intervall: 1.0,
       fart: 1.5,
       spawn: 0.45
     };
@@ -112,10 +98,8 @@ const LTD = (() => {
       typ: typId,
       namn: t.namn,
       maxHalsa: Math.round(bas.halsa * t.halsa * (extraHalsa || 1)),
-      skada: Math.round(bas.skada * t.skada),
       fart: bas.fart * t.fart,
       belaning: Math.floor(bas.belaning * t.belaning),
-      intervall: bas.intervall,
       r: t.r,
       farg: t.farg,
       minskadSkada: t.minskadSkada || 0,
@@ -166,7 +150,7 @@ const LTD = (() => {
 
   return {
     START_RAMEN, TAK, START_LIV, RANTA_PROCENT, ANTAL_VAGOR, STRID_MAX, NEDRAKNING,
-    GRID_KOL, GRID_RAD, UPPGRADERING_FAKTOR, FORSALJNING_ANDEL, FORSVARARE_FART,
+    GRID_KOL, GRID_RAD, FORSALJNING_ANDEL,
     ENHETER, ENHET, FIENDETYPER, BOSSNAMN, TILLVAXT, vag, vagText, basvarden, BILDMAPP: 'bilder/',
     BANA, arBana, antalByggrutor, KUNG_RUTA
   };

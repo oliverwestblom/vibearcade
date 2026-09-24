@@ -67,40 +67,28 @@ Om du redan har en Git-klon som saknar skriptet, kör `git pull --ff-only origin
 - Vibe Breaker: vänster/höger, A/D, håll skärmknapparna eller dra på planen. Studsa den rosa vibe-orben med zebran, krossa alla block och fånga power-ups för bredare platta, fler orber, lägre fart eller extra liv.
 - Vibe Slash: skiva b3-orber och zebramelooner, undvik vibefaten. P pausar. Spelet startar i musläge — dra över planen för att skiva. Knappen Slå på kameran byter till handstyrning: bildrutorna jämförs mot varandra i låg upplösning, och rutor där något rör sig blir skivande. Videon analyseras bara lokalt och skickas ingenstans. Kameran stängs automatiskt när du lämnar fliken.
 - Alla spel: rundan startar direkt när du väljer spelet på startsidan. Knappen i verktygsraden startar om rundan. I Elefantungen heter den Nytt ägg och kräver en extra klickbekräftelse om ungen hunnit bli äldre än en minut.
-- Legion TD Vibe: ett Legion TD-inspirerat tower defense i tjugo vågor. Du placerar en armé mellan vågorna och ser den slåss automatiskt. Se avsnittet nedan för regler.
+- Legion TD Vibe: ett tower defense i tjugo vågor. Fasta torn skjuter på fiender längs en bana; varje torn kan uppgraderas i skada och räckvidd. Se avsnittet nedan för regler.
 - Alla spel: knappen Helskärm i verktygsraden, eller tangenten `F`, fyller skärmen. Rubrik och tillbaka-länk göms då så spelplanen får plats, och den växer till runt 83 % av skärmhöjden. Escape lämnar helskärmen; ett andra Escape går till huvudmenyn.
 - Alla spel: tillbaka-länken eller Escape går till huvudmenyn.
 - Snake, Pong, Elefanten, Vibe Kong, Vibe Rescue och Vibe Breaker avbryter rundan om fliken döljs; starta en ny runda när du återkommer. Vibetris och Vibe Slash pausar istället, och Elefantungen lever vidare.
 
 ### Legion TD Vibe
 
-En rosa elefantkung försvarar sitt ramenkök i tjugo vågor. Du köper och placerar försvarare i byggfas, trycker **Starta våg**, och striden sköter sig själv.
+Ett tower defense-spel med fasta torn och en slingrande bana. Tjugo vågor, sex torn och bossar på våg 5, 10, 15 och 20. Fiender följer stigen till ramenköket; tornen har ingen hälsa och kan inte flyttas.
 
-**Ekonomi.** Valutan heter Ramen. Du börjar med 500 Ramen och 20 kungaliv, och saldot kan aldrig överstiga 300 000.
+**Ekonomi.** Start: 500 Ramen och 20 kungaliv. Döda fiender ger Ramen. Vanliga läckor tar ett liv, bossar fem. Saldot är högst 300 000. Vid vågstart låses ränteunderlaget till kvarvarande saldo. En överlevd våg betalar `floor(underlag × 5 / 100)` en gång, begränsat av saldotaket. Nya fiendebelöningar ger ränta först nästa våg. Förlust ger ingen ränta.
 
-- Dödade fiender ger Ramen direkt. Fiender som läcker fram till kungen ger ingenting och kostar liv — vanliga fiender ett, bossar fem.
-- När en våg startar låses *ränteunderlaget* till ditt saldo i det ögonblicket. Överlever du vågen betalas `floor(underlag × 5 / 100)` ut, exakt en gång. Ramen du tjänar under vågen ger alltså ränta först nästa våg, om pengarna finns kvar då.
-- Räntan avrundas alltid nedåt: underlag 19 ger 0, underlag 20 ger 1.
-- Träffar du saldotaket försvinner överskottet — det sparas inte i en dold reserv. Verktygsraden visar alltid exakt saldo och vad räntan blir.
-- Förlorar du matchen betalas ingen ränta. Paus, flikbyte, omladdning och 2× fart ger aldrig extra pengar.
+**Bygga och uppgradera.** Välj ett torn, tryck på en ledig markruta i rutnätet 12 × 9 och markera sedan tornet. Varje torn har separata spår för **Skada 0–3** och **Räckvidd 0–3**. Båda kan maxas. Panelen visar aktuell statistik, nästa värde, pris och räntepåverkan. Skademultiplikatorer: 1 / 1,4 / 1,9 / 2,6. Räckvidd: 1 / 1,15 / 1,30 / 1,50. Priser beräknas från grundpriset och avrundas upp till närmaste 5 Ramen. Försäljning ger 70 % av hela investeringen. Köp, uppgraderingar och försäljning sker mellan vågor.
 
-**Bygga.** Rutnätet är 8 × 6 rutor, en försvarare per ruta. Flytt är gratis, uppgradering kostar 150 % av grundpriset och ger dubbel hälsa och skada, försäljning ger 70 % av allt du betalat. Köp, flytt, uppgradering och försäljning är låsta under strid, och en ogiltig placering drar aldrig Ramen.
+**Tornen.** Zebravakt är en billig snabbskytt; Nudelskytt en långdistansprickskytt; Buljongkanon och Chilikastare gör områdesskada; Iskock bromsar fiender; Ramenmunk ger stöd och skjuter egna energikulor. Munkens aura ger +25 % skada och +15 % räckvidd till andra torntyper. Auror staplas aldrig och munkar kan inte förstärka varandra. Munkens skadeuppgradering förbättrar egna skott, medan räckvidd förbättrar både skjuträckvidd och aura. **Tornguiden** förklarar styrkor, svagheter, placering och uppgraderingar med bildförhandsvisningar.
 
-**Banan.** Fienderna följer en slingrande bana från hörnet längst upp till vänster, genom fyra gångar fram och tillbaka, och vidare till kungen. Banan är 62 rutor lång, vilket tar drygt 40 sekunder att gå i grundfart. Du bygger i de 47 rutorna mellan gångarna — aldrig i banan, och ett försök att placera där kostar ingen Ramen. Varje byggruta ligger mellan två gångar, så den kan täcka fiender som passerar både ovanför och under.
+**Grafik.** Egna AI-genererade rasterillustrationer finns lokalt i `games/ramen-legion-td/bilder/`. Sex tornatlaser innehåller samtliga 16 kombinationer av skade- och räckviddsnivåer. Där finns även fiender, fyra bossutseenden, kung, miljö och projektiler. `manifest.json` dokumenterar ursprung, atlaslayout och genereringsprompter. Äldre SVG-filer är bevarade men används inte av den nya spelversionen. Minskade effekter stänger av dekorativa rörelser och partiklar; projektiler och funktionella markeringar finns kvar.
 
-**Placeringen spelar roll.** Fienderna går hela tiden vidare och slår mot försvarare i förbifarten; de stannar aldrig för att slåss. En försvarare skjuter bara på det som passerar inom dess räckvidd, och får bara lämna sin hemruta 1,3 rutor. Räckvidden avgör därför hur stor del av banan enheten täcker: en närstridsenhet med 0,8 rutor får bara en kort skottlucka, medan en nudelskytt med 3,5 rutor hinner flera attacker per fiende. Enheterna återställs gratis mellan vågorna.
+**Styrning.** Mus/touch: välj och placera, markera ett torn för uppgraderingar och målprioritet. Tangentbord: `1`–`6` väljer torn, pilar flyttar rutmarkören, `Enter` placerar/markerar, `mellanslag` startar vågen och `P` pausar. `F` öppnar helskärm, `Escape` går till huvudmenyn; om Tornguiden är öppen stänger Escape den först. Målval: Först, Sist, Starkast eller Närmast. Tornguide under strid och dold flik pausar, med manuell Fortsätt. 1×/2× ändrar bara simuleringshastighet. Omstart kräver bekräftelse i pågående match.
 
-**Vågorna** är reproducerbara — samma våg ger alltid samma fiender. Sex fiendetyper varvas, och boss finns på våg 5, 10, 15 och 20. Rundan avbryts efter 120 sekunders simuleringstid; kvarvarande fiender räknas då som läckor.
+**Verifiering.** Kör `node --test games/ramen-legion-td/tests/game.test.cjs` för regler och simulering av den faktiska spelmotorn. Testerna täcker båda uppgraderingsspåren, kostnader, giltiga köp, försäljning, aura, målval, träffskada, kyla, ränta, saldotak, timeout och paus. Två deterministiska köpstrategier genomför 20 vågor med endast intjänad Ramen: blandad armé (20 liv) och snipertung armé (12 liv) i det aktuella balansutkastet. Detta är simuleringsresultat, inte ett påstående om slutlig balans för alla strategier. Raspberry Pi-prestanda är inte verifierad.
 
-**Styrning.** Mus eller touch: välj i butiken, tryck på en ledig ruta. Tryck på en placerad enhet för Flytta, Uppgradera och Sälj. Tangentbord: `1`–`6` väljer enhet, piltangenter flyttar rutmarkören, `Enter` placerar eller väljer, `mellanslag` startar vågen, `P` pausar. `Escape` går till huvudmenyn som i övriga spel. Knappen `1×`/`2×` ändrar bara takten, aldrig några belopp.
-
-Balansdatan ligger samlad i `games/ramen-legion-td/data.js`, med banan definierad i samma fil. Alla avvikelser från designdokumentets utkast är motiverade i kommentarer där de står:
-
-- **Försvararnas skada är tredubblad.** Dokumentets siffror var satta för en öppen arena där fienderna stannade och slogs, så hela armén sköt på samma mål. Med banan går de förbi i stället, och varje enhet hinner bara skjuta på det som passerar dess räckvidd. Med de ursprungliga talen läckte redan våg 1 rakt igenom.
-- **Nudelskytten kostar 150 och gör 24 i grundskada** (dokumentet föreslog 140/30).
-- **Kopplet `KOPPEL`** i `game.js` är ett tillägg, inte en ändring: utan det sprang hela armén i klump mot närmaste fiende och placeringen slutade spela roll.
-
-**Balansen är inte färdig.** En ren armé av bara nudelskyttar eller bara chilikastare vinner fortfarande alla tjugo vågor utan att förlora ett enda liv, medan en blandad armé vinner med 16 liv kvar. Orsaken är att banan gör räckvidd till den överlägset viktigaste egenskapen, och enhetstabellen är fortfarande balanserad för närstrid. En ordentlig ombalansering mot tower-defense-ekonomi — där priset följer täckt banlängd snarare än skada per slag — återstår.
+Balansdata och banan finns i `data.js`, gemensamma statistikregler i `rules.js`, svensk torninformation i `towers.js` och spelet i `game.js`. Inga nya paket eller byggsteg krävs för att spela.
 
 ### Helskärm
 

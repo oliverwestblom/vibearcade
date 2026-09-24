@@ -8,5 +8,5 @@
   {"name":"Vibetris","folder":"vibetris","description":"Tetris med SRS-rotation, hold, ghost och T-spins. Topplista sparas.","tag":"PUSSEL","controls":"Piltangenter / X och Z / Mellanslag","number":"07"},
   {"name":"Vibe Breaker","folder":"vibe-breaker","description":"Studsa vibe-orben med zebran och krossa den färgglada väggen.","tag":"BRICK BREAKER","controls":"Piltangenter / A och D / Dra","number":"08"},
   {"name":"Vibe Slash","folder":"vibe-slash","description":"Skiva b3-orber med handrörelser framför kameran. Musen funkar också.","tag":"RÖRELSE","controls":"Kamera / Mus","number":"09"},
-  {"name":"Legion TD Vibe","folder":"ramen-legion-td","description":"Bygg din legion, överlev vågorna och få 5 % ränta på sparad Ramen.","tag":"TOWER DEFENSE","controls":"Mus / Touch / 1–6","number":"10"}
+  {"name":"Legion TD Vibe","folder":"ramen-legion-td","description":"Försvara ramenköket med illustrerade torn. Uppgradera skada och räckvidd, överlev 20 vågor och få 5 % ränta.","tag":"TOWER DEFENSE","controls":"Mus / Touch / 1–6","number":"10"}
 ]
