@@ -1,0 +1,181 @@
+.vm { --ice: #7fe3ff; --panel2: #232735; }
+.vm .game-header p:last-child { max-width: 760px; color: var(--muted); }
+
+.vm-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 14px; }
+.vm button:disabled { opacity: .45; cursor: not-allowed; }
+.vm-hud > div { display: flex; flex-direction: column; min-width: 64px; }
+.vm-hud small { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); }
+.vm-hud strong { font-size: 18px; font-variant-numeric: tabular-nums; }
+.vm-hud kbd { font-size: 10px; opacity: .7; margin-left: 4px; }
+.vm-fas { margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 1px; padding: 6px 10px; border-radius: 20px; border: 1px solid #3b3f4c; color: var(--lime); }
+.vm-fas.strid { color: var(--pink); border-color: var(--pink); }
+
+.vm-layout { display: flex; flex-direction: column; gap: 14px; }
+.vm-plan canvas { display: block; width: 100%; height: auto; border-radius: 14px; background: #10141d; touch-action: none; cursor: crosshair; }
+.vm-panel { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; align-items: start; }
+.vm-kartinfo { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+.vm-kort { background: var(--panel); border: 1px solid #303440; border-radius: 14px; padding: 14px; }
+.vm-kort h2 { font-size: 15px; margin: 0 0 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.vm-kort h2 small { font-size: 10px; font-weight: 400; color: var(--muted); }
+.vm-kort p { margin: 6px 0; font-size: 13px; color: var(--muted); }
+
+.vm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+.vm-chip { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; background: var(--panel2); border: 1px solid #3b3f4c; }
+.vm-chip.luft { color: var(--ice); border-color: var(--ice); }
+.vm-chip.immun { color: var(--pink); border-color: var(--pink); }
+.vm-chip.boss { color: #ff4f8b; border-color: #ff4f8b; }
+
+.vm-grupp { margin-bottom: 10px; }
+.vm-grupp:last-child { margin-bottom: 0; }
+.vm-grupp h3 { font-size: 11px; letter-spacing: 1.5px; margin: 0 0 6px; text-transform: uppercase; }
+.vm-torn { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
+.vm-torn button { text-align: left; background: var(--panel2); color: var(--text); border: 1px solid #3b3f4c; border-radius: 10px; padding: 7px 8px; font-size: 12px; line-height: 1.25; position: relative; }
+.vm-torn button:hover:not(:disabled) { border-color: var(--byggfarg, var(--lime)); }
+.vm-torn button.aktiv { border-color: var(--byggfarg, var(--lime)); box-shadow: inset 0 0 0 1px var(--byggfarg, var(--lime)); }
+.vm-torn button:disabled { opacity: .45; cursor: not-allowed; }
+.vm-torn b { display: block; }
+.vm-torn small { color: var(--muted); }
+.vm-torn kbd { position: absolute; top: 5px; right: 7px; font-size: 10px; color: var(--muted); }
+
+.vm-stats { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13px; margin: 8px 0; }
+.vm-stats dt { color: var(--muted); }
+.vm-stats dd { margin: 0; font-variant-numeric: tabular-nums; }
+.vm-bra { color: var(--lime); } .vm-daligt { color: var(--pink); }
+.vm-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.vm-knappar button { flex: 1 1 auto; }
+.vm-mal { display: flex; gap: 4px; margin-top: 8px; }
+.vm-mal button { flex: 1; font-size: 11px; padding: 5px 4px; background: var(--panel2); color: var(--text); border: 1px solid #3b3f4c; border-radius: 8px; }
+.vm-mal button.aktiv { border-color: var(--lime); color: var(--lime); }
+
+.vm-dialog { background: var(--panel); color: var(--text); border: 1px solid #3b3f4c; border-radius: 16px; padding: 22px; width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+.vm-dialog::backdrop { background: #06070bcc; }
+.vm-dialog h2 { margin: 0 0 12px; font-size: 22px; }
+.vm-dialog fieldset { border: 0; padding: 0; margin: 0 0 16px; }
+.vm-dialog legend { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--lime); margin-bottom: 8px; text-transform: uppercase; }
+.vm-rad { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.vm-rad label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+.vm-rad select { font: inherit; background: var(--panel2); color: var(--text); border: 1px solid #3b3f4c; border-radius: 8px; padding: 6px 8px; min-width: 160px; }
+.vm-rad label.vm-check { flex-direction: row; align-items: center; color: var(--text); }
+.vm-byggarval { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.vm-byggarval button { text-align: left; background: var(--panel2); color: var(--text); border: 1px solid #3b3f4c; border-radius: 12px; padding: 8px; font-size: 12px; }
+.vm-byggarval button.aktiv { border-color: var(--lime); box-shadow: inset 0 0 0 1px var(--lime); }
+.vm-byggarval b { display: block; font-size: 14px; }
+.vm-byggarval small { color: var(--muted); }
+.vm-byggarval button { border-left: 4px solid var(--byggfarg); }
+.vm-byggarval button:disabled { opacity: .5; cursor: default; }
+.vm-fel { color: var(--pink); min-height: 1.2em; font-size: 13px; }
+
+@media (max-width: 900px) {
+  .vm-panel { grid-template-columns: 1fr 1fr; }
+  .vm-panel > :nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
+}
+@media (max-width: 600px) {
+  .vm-panel { display: flex; flex-direction: column; }
+  .vm-byggarval { grid-template-columns: 1fr; }
+  .vm-fas { margin-left: 0; }
+}
+
+.vm-byggarval { grid-template-columns: repeat(3, 1fr); }
+.vm-byggarval button { display: flex; flex-direction: column; gap: 3px; }
+.vm-stil { display: flex; flex-wrap: wrap; gap: 4px; margin: 2px 0; }
+.vm-stil i { font-style: normal; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 1px 6px; border-radius: 8px; border: 1px solid var(--byggfarg); color: var(--byggfarg); }
+.vm-byggarval .vm-bra-rad { color: var(--lime); }
+.vm-byggarval .vm-svag-rad { color: var(--orange); }
+.vm-byggarval .vm-tornrad { font-size: 10px; opacity: .8; }
+.vm-testvag { font: inherit; font-size: 13px; background: var(--panel2); color: var(--text); border: 1px solid var(--lime); border-radius: 8px; padding: 6px 8px; }
+.vm-rad label.vm-test { color: var(--lime); }
+@media (max-width: 900px) { .vm-byggarval { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .vm-byggarval { grid-template-columns: 1fr; } }
+/* Illustrated race identities and wave portraits. */
+.vm{--panel:#142130;--panel2:#1c2e3f;--ice:#a4e9ff}
+.vm .vm-kort{border-color:#355063;background:linear-gradient(145deg,#1a2a3a,#101c29);box-shadow:0 8px 24px #0002}
+.vm canvas.vm-portrait{display:block;width:84px;height:84px;max-width:100%;margin:0;background:transparent;border:0;box-shadow:none;border-radius:0;aspect-ratio:1}
+.vm .vm-torn button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;background:radial-gradient(ellipse at top,#354353,#172534);border-color:#3c566c;padding:10px}
+.vm .vm-torn .vm-portrait{width:88px;height:88px;align-self:center}
+.vm .vm-byggarval button{padding:16px;border-color:#40566a;background:linear-gradient(145deg,#203446,#101b29);gap:7px}
+.vm .vm-byggarval button.aktiv{border-color:var(--byggfarg);box-shadow:inset 0 0 0 1px var(--byggfarg),0 0 20px #7bdcff14}
+.vm .vm-byggarval button>b{font-size:19px}
+.vm-race-roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:6px;margin:6px 0}
+.vm-race-roster>span{display:flex;align-items:center;flex-direction:column;border-radius:8px;background:#070f1960;padding:5px;text-align:center;font-size:10px;color:#d7e6ef}
+.vm .vm-race-roster .vm-portrait{width:88px;height:88px}
+.vm-wave-identity{display:flex;align-items:center;gap:14px;margin:8px 0;padding:10px;border:1px solid #52708a;border-radius:10px;background:radial-gradient(ellipse at left,#314760,#101d2c)}
+.vm-wave-identity strong{font-size:21px;color:#d7ecff}
+.vm .vm-wave-identity .vm-portrait{width:108px;height:108px;flex-shrink:0}
+.vm #vald>.vm-portrait{width:120px;height:120px;margin:0 auto 10px}
+.vm-art-status{color:#c3dcf2;font-size:12px}
+.vm-dialog{max-width:1120px!important;width:94vw!important}
+.vm .vm-hud{background:linear-gradient(110deg,#213647,#101b29);border:1px solid #4d677c;box-shadow:0 8px 30px #0003}
+.vm .game-header h1{color:#d7f1ff;text-shadow:0 0 28px #7cd9ff22}
+
+.vm-bestiary-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+#bestiary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:18px}
+#bestiary-grid article{padding:12px;border:1px solid #3c5870;border-radius:12px;background:radial-gradient(ellipse at top,#30475c,#101a27);text-align:center}
+#bestiary-grid h3{font-size:13px;color:#d8eeff;margin:8px 0}
+#bestiary-grid p{font-size:10px;line-height:1.6;color:#b5c7d8}
+.vm #bestiary-grid .vm-portrait{width:120px;height:120px;margin:auto}
+@media(max-width:800px){#bestiary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:500px){#bestiary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Installerad som app: bara spelet, ingen lank tillbaka till portalen. */
+.vm-app .back-link { display: none; }
+
+/* Touch workbench: retain the artwork at playable size rather than shrinking 30 cells. */
+.vm-board-tools,.vm-mobile-actions,.vm-mobile-tabs{display:none}
+.vm button{touch-action:manipulation}
+.vm,.vm *{-webkit-user-select:none;user-select:none}
+.vm-dialog button,.vm-dialog select{min-height:44px}
+@media(max-width:900px),(pointer:coarse){
+  .game-shell.vm{padding:12px;max-width:100%;min-width:0}
+  .vm .game-header h1{font-size:30px;margin:4px 0}
+  .vm .game-header p:last-child{font-size:12px;line-height:1.5;margin:6px 0 12px}
+  .vm .game-header .eyebrow,.vm kbd{display:none}
+  .vm .vm-hud{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:10px;border-radius:12px}
+  .vm-hud>div{min-width:0}.vm-hud small{font-size:9px;letter-spacing:.7px}.vm-hud strong{font-size:15px;overflow-wrap:anywhere}
+  .vm-hud>div:nth-child(5){grid-column:span 2}
+  .vm-hud .vm-fas{grid-column:span 2;margin:0;text-align:center}
+  .vm-hud button{min-height:44px;padding:9px 6px;font-size:12px;min-width:0}
+  .vm #starta-vag,.vm #bestiary-open,.vm #start{grid-column:span 2}
+  .vm #test-vag{grid-column:1/-1;max-width:100%;min-width:0;min-height:44px}
+  .vm-board-tools{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .vm-board-tools button{min-height:44px;padding:8px 12px}
+  #zoom-label{min-width:64px;text-align:center;font-size:12px}
+  .vm-pan-hint{font-size:11px;color:#b3c8da}
+  .vm #board-viewport{width:100%;max-height:42svh;min-height:180px;overflow:auto;overscroll-behavior:contain;border:1px solid #46627b;border-radius:12px;touch-action:pan-x pan-y pinch-zoom;scrollbar-width:thin}
+  .vm #board{max-width:none;max-height:none;margin:0;border:0;border-radius:0;touch-action:pan-x pan-y pinch-zoom}
+  .vm-layout{gap:9px;min-width:0}
+  .vm-mobile-actions{display:grid;grid-template-columns:1fr auto;gap:6px;padding:10px;background:#20364a;border:1px solid #59758b;border-radius:12px}
+  #mobile-build-hint{grid-column:1/-1;font-size:12px;color:#d3e5ee;line-height:1.45;min-height:18px}
+  .vm-mobile-actions button{min-height:46px;font-size:14px}
+  .vm-mobile-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .vm-mobile-tabs button{min-height:46px;border-radius:9px;border:1px solid #4f667b;background:#182b3d;color:#d8eaff;font:inherit;font-size:13px}
+  .vm-mobile-tabs button[aria-pressed=true]{background:#cce6a2;color:#1b2d18;border-color:#cce6a2;font-weight:700}
+  .vm-panel{display:block;min-width:0}
+  #mobile-panel[data-panel=build]>:not(#shop-panel),#mobile-panel[data-panel=wave]>:not(#nasta-vag),#mobile-panel[data-panel=selected]>:not(#vald){display:none}
+  #mobile-panel[data-panel=selected]:has(#vald[hidden]):after{content:'Tryck på ett torn på banan för att uppgradera eller sälja.';display:block;padding:18px;color:#bfd0dc;font-size:13px}
+  .vm .vm-torn{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vm .vm-torn button{min-height:125px;font-size:13px}
+  .vm .vm-torn .vm-portrait{width:70px;height:70px}
+  .vm .vm-kort{padding:12px;width:100%;box-sizing:border-box}
+  .vm .vm-mal{flex-wrap:wrap}.vm .vm-mal button{min-width:60px;min-height:44px;font-size:12px}
+  .vm-knappar button{min-height:46px}
+  .vm .vm-dialog{padding:14px;width:calc(100vw - 20px)!important;max-height:calc(100svh - 20px);box-sizing:border-box;overscroll-behavior:contain}
+  .vm-rad select{font-size:16px;min-width:0;max-width:100%}
+  .vm-rad{gap:12px}.vm-rad>label{flex:1;min-width:130px}
+  .vm-rad label.vm-check{min-height:44px;flex-basis:100%}
+  .vm-rad input[type=checkbox]{width:22px;height:22px;flex-shrink:0}
+  .vm #setup-form>.vm-knappar{position:sticky;bottom:-14px;background:#142130;padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:2}
+  .vm .vm-race-roster{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vm .vm-race-roster .vm-portrait{width:64px;height:64px}
+  .vm .vm-race-roster>span{font-size:9px;overflow-wrap:anywhere}
+  .vm .vm-byggarval button{padding:12px}
+  .vm #status{font-size:12px;line-height:1.5;margin:10px 0;padding-bottom:env(safe-area-inset-bottom)}
+}
+@media(max-width:450px){.vm .game-header p:last-child{display:none}.vm .back-link{font-size:12px}.vm-byggarval{grid-template-columns:1fr}}
+@media(max-width:900px) and (orientation:landscape){.vm #board-viewport{max-height:58svh}.vm .game-header{display:none}.vm .vm-hud{grid-template-columns:repeat(8,minmax(0,1fr))}}
+
+@media(max-width:900px),(pointer:coarse){.vm #shop-panel h2 small{display:none}.vm .vm-race-roster>span{font-size:11px}.vm #board-viewport:focus-visible{outline:2px solid var(--ice)}}
+
+/* Uppgraderingskedjan i butiken: bara steg 1 går att bygga, resten visas som vägen uppåt. */
+.vm-torn .vm-steg { text-align: left; background: transparent; color: var(--text); border: 1px dashed #3b3f4c; border-radius: 10px; padding: 7px 8px; font-size: 12px; line-height: 1.25; position: relative; opacity: .75; cursor: help; }
+.vm-torn .vm-steg b { display: block; }
+.vm-torn .vm-steg small { color: var(--muted); }

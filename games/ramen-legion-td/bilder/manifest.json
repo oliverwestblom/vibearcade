@@ -1,63 +1,215 @@
 {
-  "version": 3,
+  "version": 7,
   "origin": "Original artwork generated with the built-in image_gen tool for Legion TD Vibe.",
-  "layout": "Tower atlases: damageLevel is column 0–3; rangeLevel is row 0–3. Complete composite sprites, anchor at center; no whole-sprite rotation.",
+  "layout": "Kitchen tower atlases use damage/range columns/rows clamped at 3; higher ranks add a mastery ring. Tea House uses existing vector art.js. Arcane atlas uses measured sprite rows, with tier ceil(max(damage,range,speed)/2). Rune badge drawn separately.",
   "assets": [
     {
       "id": "zebravakt",
-      "file": "zebravakt-atlas.png",
+      "file": "zebravakt-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for the Zebravakt tower in Legion TD Vibe. A polished hand-painted fantasy tower-defense game illustration, three-quarter overhead view, warm upper-left lighting, exquisite copper rivets, leather straps, striped zebra operator, bamboo crossbow turret on circular stone plinth. EXACTLY a 4 column by 4 row evenly spaced grid of 16 full isolated tower sprites, no text, no labels, no borders. Transparent background with real alpha. Each sprite centered in its own equal square cell with generous empty padding. Columns left to right represent damage upgrades 0,1,2,3: simple bamboo weapon; copper-tipped weapon; reinforced magazine weapon; gold-reinforced powerful bamboo cannon. Rows top to bottom range upgrades 0,1,2,3: no optics; small sight; lens tube; tall spotting periscope. Each tile combines its column weapon and row sight accurately. All show same scale, perspective and consistent recognizable base character; increasing equipment detail rather than color-only variations. Entire atlas square 2048x2048 if possible. NO ground scene, no square opaque tile backgrounds, no UI, no text. Not an existing copyrighted character. Complete sprite inside each cell."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for the Zebravakt tower in Legion TD Vibe. A polished hand-painted fantasy tower-defense game illustration, three-quarter overhead view, warm upper-left lighting, exquisite copper rivets, leather straps, striped zebra operator, bamboo crossbow turret on circular stone plinth. EXACTLY a 4 column by 4 row evenly spaced grid of 16 full isolated tower sprites, no text, no labels, no borders. Transparent background with real alpha. Each sprite centered in its own equal square cell with generous empty padding. Columns left to right represent damage upgrades 0,1,2,3: simple bamboo weapon; copper-tipped weapon; reinforced magazine weapon; gold-reinforced powerful bamboo cannon. Rows top to bottom range upgrades 0,1,2,3: no optics; small sight; lens tube; tall spotting periscope. Each tile combines its column weapon and row sight accurately. All show same scale, perspective and consistent recognizable base character; increasing equipment detail rather than color-only variations. Entire atlas square 2048x2048 if possible. NO ground scene, no square opaque tile backgrounds, no UI, no text. Not an existing copyrighted character. Complete sprite inside each cell.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 524416
     },
     {
       "id": "nudelskytt",
-      "file": "nudelskytt-atlas.png",
+      "file": "nudelskytt-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for nudelskytt in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Nudelskytt: whimsical noodle crossbow sniper turret with a small chef operator in teal scarf, lacquered wooden stock, brass bolts, tensioned crossbow arms. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: simple crossbow; steel spring reinforcement; double tension arms; glowing golden bolt magazine. Rows top to bottom range levels 0-3: no scope; small scope; long lens array; large gold framed observatory scope. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for nudelskytt in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Nudelskytt: whimsical noodle crossbow sniper turret with a small chef operator in teal scarf, lacquered wooden stock, brass bolts, tensioned crossbow arms. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: simple crossbow; steel spring reinforcement; double tension arms; glowing golden bolt magazine. Rows top to bottom range levels 0-3: no scope; small scope; long lens array; large gold framed observatory scope. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 575768
     },
     {
       "id": "buljongtank",
-      "file": "buljongtank-atlas.png",
+      "file": "buljongtank-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for buljongtank in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Buljongkanon: heavy brass soup cauldron cannon on sturdy stone base, ceramic interior, steam pipes, readable pressure gauge, rivets, glowing broth inspection window. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: simple cauldron; reinforced brass cauldron; double pressure chambers; golden overpressure core. Rows top to bottom range levels 0-3: no scope; small adjustable sight; raised aiming arm; ornate optical rangefinder. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for buljongtank in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Buljongkanon: heavy brass soup cauldron cannon on sturdy stone base, ceramic interior, steam pipes, readable pressure gauge, rivets, glowing broth inspection window. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: simple cauldron; reinforced brass cauldron; double pressure chambers; golden overpressure core. Rows top to bottom range levels 0-3: no scope; small adjustable sight; raised aiming arm; ornate optical rangefinder. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 543776
     },
     {
       "id": "chilikastare",
-      "file": "chilikastare-atlas.png",
+      "file": "chilikastare-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for chilikastare in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Chilikastare: whimsical red dragon-shaped chili cannon on round stone plinth, black iron bands, chili cartridge magazine, glowing orange chamber and scorched metal edges. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: small red dragon barrel; bigger chili cartridge magazine; glowing pressure vessel; layered armored dragon jaw. Rows top to bottom range levels 0-3: no scope; nose-ring sight; extended barrel insert; raised aiming lens. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for chilikastare in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Chilikastare: whimsical red dragon-shaped chili cannon on round stone plinth, black iron bands, chili cartridge magazine, glowing orange chamber and scorched metal edges. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: small red dragon barrel; bigger chili cartridge magazine; glowing pressure vessel; layered armored dragon jaw. Rows top to bottom range levels 0-3: no scope; nose-ring sight; extended barrel insert; raised aiming lens. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 507086
     },
     {
       "id": "iskock",
-      "file": "iskock-atlas.png",
+      "file": "iskock-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for iskock in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Iskock: charming tiny ice chef with white toque behind a blue crystal cauldron turret on a round stone plinth, silver rings, frost, directional ice nozzle. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: small blue ice core; larger ice core; multilayer crystal; luminous prismatic core. Rows top to bottom range levels 0-3: no optics; focus ring; long crystal nozzle; three-part focusing lens. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for iskock in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Iskock: charming tiny ice chef with white toque behind a blue crystal cauldron turret on a round stone plinth, silver rings, frost, directional ice nozzle. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: small blue ice core; larger ice core; multilayer crystal; luminous prismatic core. Rows top to bottom range levels 0-3: no optics; focus ring; long crystal nozzle; three-part focusing lens. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 539960
     },
     {
       "id": "ramenmunk",
-      "file": "ramenmunk-atlas.png",
+      "file": "ramenmunk-atlas.webp",
       "columns": 4,
       "rows": 4,
-      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for ramenmunk in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Ramenmunk: charming small monk in cream and violet robes on round stone plinth, floating noodle bowl, prayer beads, warm little lanterns and golden runes. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: plain prayer bowl; glowing focus pearl; two focus pearls; ornate golden bowl with energy core. Rows top to bottom range levels 0-3: no extra lantern; small incense holder; large rune arch; three lantern halo. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design."
+      "prompt": "Use case: stylized-concept. Production game asset: one sprite atlas for ramenmunk in Legion TD Vibe. Polished richly detailed hand-painted fantasy tower-defense illustration, three-quarter overhead perspective, warm upper-left lighting, tactile materials, similar art direction to a premium whimsical strategy game. Subject: Ramenmunk: charming small monk in cream and violet robes on round stone plinth, floating noodle bowl, prayer beads, warm little lanterns and golden runes. EXACTLY 4 columns and 4 rows, evenly spaced grid of 16 complete isolated tower sprites. Transparent background, actual alpha, no opaque square backgrounds, no scene. Each centered in its own equal square cell with generous padding. Columns left to right damage levels 0-3: plain prayer bowl; glowing focus pearl; two focus pearls; ornate golden bowl with energy core. Rows top to bottom range levels 0-3: no extra lantern; small incense holder; large rune arch; three lantern halo. Each tile accurately combines column equipment with row equipment. Same scale, perspective, base and character in every tile, visibly distinct upgrade equipment, not color-only. Square atlas 2048x2048 if possible. No text, labels, borders, UI. Full sprites never overlap cells. Original design.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 712890
     },
     {
       "id": "creatures",
-      "file": "creatures-atlas.png",
+      "file": "creatures-atlas.webp",
       "columns": 4,
       "rows": 3,
-      "prompt": "Use case: stylized-concept. One production game creature sprite atlas for a whimsical ramen fantasy tower-defense game. Exactly 4 columns by 3 rows, 12 equally sized square cells, transparent alpha background, no text, no borders. Each complete creature centered in own cell with clear generous margins, identical three-quarter overhead perspective and warm upper-left light, rich hand-painted material detail and friendly expressive faces. Row 1 left to right: round dough monster; slender speedy green chili runner; tiny pea-noodle dumpling swarm creature; armored iron cooking pot with shield. Row 2 left to right: tall masked elite kitchen guardian; large dishwashing monster boss with stacked plates; red chili crab boss; teal soup dragon boss. Row 3 left to right: hungry gigantic chef boss holding ladle; pink elephant king with gold crown and ramen bowl; golden lantern prop; bamboo planter prop. Exactly those 12 cells in this order. Each item fully within cell, no clipping, no scenery, true transparent background. Landscape 4:3 atlas, 2048x1536 if possible. Original polished game illustrations."
+      "prompt": "Use case: stylized-concept. One production game creature sprite atlas for a whimsical ramen fantasy tower-defense game. Exactly 4 columns by 3 rows, 12 equally sized square cells, transparent alpha background, no text, no borders. Each complete creature centered in own cell with clear generous margins, identical three-quarter overhead perspective and warm upper-left light, rich hand-painted material detail and friendly expressive faces. Row 1 left to right: round dough monster; slender speedy green chili runner; tiny pea-noodle dumpling swarm creature; armored iron cooking pot with shield. Row 2 left to right: tall masked elite kitchen guardian; large dishwashing monster boss with stacked plates; red chili crab boss; teal soup dragon boss. Row 3 left to right: hungry gigantic chef boss holding ladle; pink elephant king with gold crown and ramen bowl; golden lantern prop; bamboo planter prop. Exactly those 12 cells in this order. Each item fully within cell, no clipping, no scenery, true transparent background. Landscape 4:3 atlas, 2048x1536 if possible. Original polished game illustrations.",
+      "width": 1448,
+      "height": 1086,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 618718
     },
     {
       "id": "environment",
-      "file": "environment-atlas.png",
+      "file": "environment-atlas.webp",
       "columns": 1,
       "rows": 1,
-      "prompt": "Use case: stylized-concept. One landscape environment background image for a premium hand-painted whimsical fantasy ramen tower defense game. Near-top-down view with slight three-quarter overhead depth on edge props. 4:3 aspect ratio. Central 88 percent is quiet muted moss-green grass and earthy texture, visually calm and completely EMPTY to overlay a serpentine game path and towers later. NO paths, NO buildings, NO props in central play field. Richly detailed decorative frame only along very outer edges: bamboo leaves, small lanterns, herbs, warm mossy stones, a few pink flower petals and leafy corners. Warm upper-left afternoon light, exquisite painterly tactile brushwork, moss green and warm gold palette. Darker corners help central game pieces stand out. No text, no UI, no people. 1536x1152 if possible."
+      "prompt": "Use case: stylized-concept. One landscape environment background image for a premium hand-painted whimsical fantasy ramen tower defense game. Near-top-down view with slight three-quarter overhead depth on edge props. 4:3 aspect ratio. Central 88 percent is quiet muted moss-green grass and earthy texture, visually calm and completely EMPTY to overlay a serpentine game path and towers later. NO paths, NO buildings, NO props in central play field. Richly detailed decorative frame only along very outer edges: bamboo leaves, small lanterns, herbs, warm mossy stones, a few pink flower petals and leafy corners. Warm upper-left afternoon light, exquisite painterly tactile brushwork, moss green and warm gold palette. Darker corners help central game pieces stand out. No text, no UI, no people. 1536x1152 if possible.",
+      "width": 1448,
+      "height": 1086,
+      "sourceMode": "RGB",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 418670
+    },
+    {
+      "id": "projectiles",
+      "file": "projectiles-atlas.webp",
+      "columns": 3,
+      "rows": 2,
+      "prompt": "A transparent PNG sprite sheet. True alpha transparency is essential. Exactly six small isolated solid game projectiles on a completely transparent empty canvas, arranged in precise equal 3-column 2-row grid, centered each cell, all facing right. Top row: bamboo arrow with copper tip; teal and brass crossbow bolt wrapped in noodle; round amber glass ball full of soup. Bottom row: red chili pepper bullet with brass casing; simple blue faceted ice crystal shard; golden spherical noodle knot. Cute premium hand-painted fantasy game icons with fine detail, crisp cutout edges. No glow whatsoever, no gradients outside the objects, no shadows, no trails, no effects, no background color, no black backdrop, no checkerboard, no text. Real transparent alpha. All objects have generous empty space around them. Each tile same square size, whole image landscape3:2.",
+      "width": 1536,
+      "height": 1024,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 169528
+    },
+    {
+      "id": "kitchen",
+      "file": "kitchen-atlas.webp",
+      "columns": 1,
+      "rows": 1,
+      "prompt": "Use case: stylized-concept. A single isolated ramen kitchen building game sprite, hand-painted whimsical fantasy tower defense, three-quarter overhead view, warm upper-left light, genuine transparent alpha background. A compact cozy Japanese-inspired ramen stall with green curved ceramic roof tiles, warm wooden posts, brass hanging lanterns, a steaming big soup cauldron, ceramic bowls on serving counter, cloth curtains in cream and muted pink. Rich tactile wood grain, stone base, roof moss and rivets, friendly charming premium game illustration. No characters, no text, no ground scenery, no background, no broad glow. Whole building centered with generous transparent margin, square PNG.",
+      "width": 1254,
+      "height": 1254,
+      "sourceMode": "RGBA",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "bytes": 389352
+    },
+    {
+      "id": "landscapes",
+      "file": "landscapes-atlas.webp",
+      "columns": 1,
+      "rows": 3,
+      "prompt": "Use case: stylized-concept. Asset type: single production landscape atlas for a polished illustrated fantasy tower defense game. Exactly THREE equal rectangular landscape panels stacked vertically, no gutters, no borders, no text. Each panel aspect ratio 748:652; full image portrait approximately 1024x2688. Top panel: snowy alpine clearing, powder snow with subtle blue ice texture, frosted fir trees and icy boulders confined to the extreme outer 5 percent edges. Middle panel: desert canyon clearing, warm peach sand with delicate ripples and buried small stones, sandstone cliffs and tiny cacti confined to extreme outer 5 percent edges. Bottom panel: volcanic plateau, dark purple basalt with scattered ember flecks, glowing orange lava pools and obsidian rocks confined to extreme outer 5 percent edges. All three top-down overhead game-board view, richly hand-painted, soft dimensional light and clean readable surfaces matching cozy fantasy tower defense art. CRITICAL each panel's central 90 percent must be continuous unobstructed buildable ground with subtle texture only, no obstacles. NO paths, roads, grids, buildings, characters, towers, labels or UI. Routes and buildings will be drawn by the game. All panels fill their entire equal cell, with exact one-third divisions. Original artwork.",
+      "layout": "Snow, desert, volcano from top to bottom. Exact paths drawn by game.",
+      "width": 774,
+      "height": 2032,
+      "bytes": 308652
+    },
+    {
+      "id": "arcane",
+      "file": "arcane-atlas.webp",
+      "columns": 3,
+      "rows": 4,
+      "prompt": "Use case: stylized-concept. Production game asset: one transparent sprite atlas for the Arcane Order tower class in Legion TD Vibe. EXACTLY 3 columns and 4 rows, 12 isolated complete tower illustrations with generous padding, equal square cells. Portrait atlas aspect 3:4. Original polished hand-painted fantasy game art, three-quarter overhead view, readable at small sizes, exquisite silver runic metalwork, floating crystals and dark stone circular plinths. Column 1 storm spire: tall teal lightning crystal between curved silver conductors, electric blue sparks. Column 2 prism sentinel: angular rose-magenta crystal cannon held in a silver mechanical gimbal, focusing optics. Column 3 gravity shrine: violet floating sphere surrounded by concentric orbiting silver rings above an obsidian altar. Rows increase rank top to bottom: simple apprentice device, reinforced adept device, elaborate master device, majestic legendary device. Same tower identity down each column, progressively ornate equipment and crystals. Clear distinct silhouettes, no characters, no text, no labels, no grid lines, no scenic ground, no backgrounds. Genuinely transparent background with alpha. Each entire sprite fits inside its cell, never touching cell boundaries. Lighting upper-left, consistent scale; all rows are complete towers, not separate parts. CORRECTION: Uniform cell alignment is critical. Every row has exactly the SAME HEIGHT and every tower is the SAME physical size, including the first and last row. All twelve sprites centered precisely in their equal cells. Fixed centers at x=1/6,3/6,5/6 image width, y=1/8,3/8,5/8,7/8 image height. Each sprite fits within 80 percent cell width and 80 percent cell height. Keep complexity increase but NEVER scale up later rows. Preserve transparent alpha.",
+      "source": "Built-in image_gen; edited once for consistent sprite layout.",
+      "rowCutsByColumn": [
+        [
+          0,
+          305,
+          639,
+          1005,
+          1448
+        ],
+        [
+          0,
+          308,
+          643,
+          1005,
+          1448
+        ],
+        [
+          0,
+          310,
+          644,
+          1009,
+          1448
+        ]
+      ],
+      "layout": "Column: Stormspira, PrismavÃ¤ktare, Gravitationsaltare. Row: ceil(highest upgrade level / 2). Measured variable row cuts used in rendering; no bitmap manipulation.",
+      "width": 1086,
+      "height": 1448,
+      "bytes": 542752
+    },
+    {
+      "id": "reinforcements",
+      "file": "reinforcements-atlas.webp",
+      "columns": 3,
+      "rows": 2,
+      "prompt": "Transparent PNG game sprite sheet. A 3 column by 2 row grid of SIX isolated game object stickers, full genuinely transparent alpha everywhere outside each object. NO painted background, NO gradient, NO lighting backdrop, NO floor, NO shadows outside objects. Keep EMPTY TRANSPARENT margins separating sprites. Each cell equal square. First row: green-and-ivory porcelain tea sniper turret with bamboo rifle; jade lotus fountain turret with teal orb; compact dark stone and silver blue rune crystal crossbow turret. Second row: purple star observatory turret with silver armillary sphere; orange solar crystal beacon on gold-and-dark-stone pedestal; gold boss medal with purple ramen bowl. Original detailed hand-painted fantasy tower defense illustrations, overhead three-quarter view, consistent small scale, each completely contained and centered in its cell. Entire image wide 3:2 ratio. IMPORTANT actual alpha channel transparency, not black, white, gradients or checkerboard. Six complete separate cutout objects with no scenery.",
+      "source": "Built-in image_gen",
+      "layout": "Row 1: Matchaskytt, LotusfontÃ¤n, RunvÃ¤ktare. Row 2: StjÃ¤rnobservatorium, Solfyr, reserved decorative boss medal. Base portraits with upgrade badges and mastery rings.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 478480
     }
   ]
 }

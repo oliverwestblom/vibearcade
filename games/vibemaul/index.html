@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vibemaul · B3 Vibe</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#11131b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="ikoner/ikon-192.png">
+  <link rel="apple-touch-icon" href="ikoner/ikon-192.png">
+  <link rel="stylesheet" href="../../style.css"><link rel="stylesheet" href="style.css">
+  <script src="../common.js" defer></script>
+  <script src="data.js" defer></script><script src="maze.js" defer></script><script src="sim.js" defer></script><script src="art.js" defer></script><script src="mobile.js" defer></script><script src="game.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<main class="game-shell game-shell-wide vm">
+  <a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
+  <header class="game-header">
+    <p class="eyebrow">11 / MAZE TD</p>
+    <h1>Vibemaul<span>.</span></h1>
+    <p>Ingen stig finns. Dina torn är väggarna. Korridoren är rak – men bara tills du bygger. Tvinga frostvarelserna att sicksacka genom en så lång labyrint som möjligt innan de når porten.</p>
+  </header>
+
+  <p id="art-status" class="vm-art-status" role="status">Laddar illustrationer…</p><div class="toolbar vm-hud">
+    <div><small>GULD</small><strong id="guld">60</strong></div>
+    <div><small>LIV</small><strong id="liv">30</strong></div>
+    <div><small>VÅG</small><strong id="vag">1 / 40</strong></div>
+    <div title="Frostkristaller låser upp nivå 5. Du får en per dödad boss."><small>KRISTALLER</small><strong id="kristaller">0</strong></div>
+    <div title="Fiendernas väg nu, jämfört med den raka vägen utan torn."><small>VÄG</small><strong id="langd">62</strong></div>
+    <span class="vm-fas" id="fas">Byggfas</span>
+    <select id="test-vag" class="vm-testvag" hidden aria-label="Testläge: välj nästa våg"></select>
+    <button class="primary" id="starta-vag" type="button">Starta våg <kbd>Mellanslag</kbd></button>
+    <button class="control" id="fart" type="button" title="Spelhastighet">1×</button>
+    <button class="control" id="paus" type="button" title="Paus (P)">Paus</button>
+    <button class="control" id="bestiary-open" type="button">Bestiarium · 40 vågor</button><button class="control" id="start" type="button">Ny match</button>
+  </div>
+
+  <div class="vm-layout">
+    <div class="vm-board-tools" aria-label="Spelplansvy"><button class="control" id="zoom-out" type="button" aria-label="Zooma ut">−</button><span id="zoom-label">100 %</span><button class="control" id="zoom-in" type="button" aria-label="Zooma in">+</button><button class="control" id="zoom-fit" type="button">Översikt</button><span class="vm-pan-hint">Svep för att flytta banan</span></div>
+    <div class="vm-plan" id="board-viewport" tabindex="0" aria-label="Svepbar spelplan">
+      <canvas id="board" width="1216" height="416" aria-label="Spelplan för Vibemaul. Bygg torn på rutnätet för att forma fiendernas väg."></canvas>
+    </div>
+    <div class="vm-mobile-actions" id="mobile-actions"><span id="mobile-build-hint" role="status">Välj ett torn i butiken.</span><button class="primary" id="mobile-build" disabled type="button">Bygg här</button><button class="control" id="mobile-cancel" type="button">Avbryt</button></div>
+    <nav class="vm-mobile-tabs" aria-label="Spelpaneler"><button type="button" data-panel="build" aria-pressed="true">Bygg</button><button type="button" data-panel="selected" aria-pressed="false">Valda torn</button><button type="button" data-panel="wave" aria-pressed="false">Nästa våg</button></nav>
+    <aside class="vm-panel" id="mobile-panel" data-panel="build">
+      <section class="vm-kort" id="nasta-vag" aria-live="polite"></section>
+      <section class="vm-kort" id="shop-panel">
+        <h2>Bygg <small>1–8 · högerklick avbryter</small></h2>
+        <div id="butik"></div>
+      </section>
+      <section class="vm-kort" id="vald" hidden></section>
+    </aside>
+  </div>
+  <p id="status" role="status">Välj byggare för att börja.</p>
+
+  <dialog id="bestiary" class="vm-dialog"><div class="vm-bestiary-heading"><h2>Frostens arméer</h2><button class="control" id="bestiary-close" type="button">Stäng</button></div><p>40 vågor, 40 utseenden. Flygare går över labyrinten; ikoner och pansartyp visar vad ditt försvar behöver möta. Oändligt läge återanvänder dessa arméer med högre styrka.</p><div id="bestiary-grid"></div></dialog><dialog id="setup" class="vm-dialog">
+    <form method="dialog" id="setup-form">
+      <h2>Ny match</h2>
+      <p id="kartinfo" class="vm-kartinfo"></p>
+      <fieldset class="vm-rad">
+        <label>Byggarläge <select id="bygglage"></select></label>
+        <label>Svårighet <select id="svarighet"></select></label>
+      </fieldset>
+      <fieldset><legend id="byggar-legend">Byggare</legend><div id="byggarval" class="vm-byggarval"></div></fieldset>
+      <fieldset class="vm-rad">
+        <label class="vm-check"><input type="checkbox" id="extra" checked> Extra byggare efter våg 15</label>
+        <label class="vm-check"><input type="checkbox" id="oandlig"> Oändligt läge efter våg 40</label>
+        <label class="vm-check vm-test" title="Oändligt guld och kristaller, liven tar aldrig slut och du kan hoppa till valfri våg. För att öva på labyrinter."><input type="checkbox" id="testlage"> Testläge – oändligt med guld, för att öva labyrinter</label>
+      </fieldset>
+      <p id="setup-fel" class="vm-fel" role="alert"></p>
+      <div class="vm-knappar"><button class="control" value="avbryt" id="setup-avbryt" type="button">Avbryt</button><button class="primary" id="setup-start" type="submit">Starta</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="erbjudande" class="vm-dialog">
+    <h2>En ny byggare ansluter</h2>
+    <p>Du har klarat våg 15. Välj en byggare till. Tornen läggs till i butiken direkt.</p>
+    <div id="erbjudande-val" class="vm-byggarval"></div>
+  </dialog>
+
+  <dialog id="slut" class="vm-dialog">
+    <h2 id="slut-rubrik"></h2>
+    <p id="slut-text"></p>
+    <div class="vm-knappar"><button class="control" id="slut-stang" type="button">Titta på planen</button><button class="primary" id="slut-ny" type="button">Ny match</button></div>
+  </dialog>
+</main>
+</body>
+</html>

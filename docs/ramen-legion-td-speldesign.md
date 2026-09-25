@@ -1,7 +1,9 @@
 # Legion TD Vibe – speldesign och bygguppdrag
 
-Version 3.0 · 24 september 2026 · Projekt: `C:\work\b3vibe`
+Version 4.0 · 24 september 2026 · Projekt: `C:\work\b3vibe`
 
+
+> Aktuell implementation, 25 september 2026: välj först klass och sedan karta innan matchen börjar. Varje klass har sex torn (18 totalt) och är låst under matchen. Byggande, uppgraderingar och runor tillåts under strid; försäljning endast mellan vågor. Varje uppgraderingsspår har sex nivåer. Dessa regler ersätter äldre motsägande uppgifter nedan. README-avsnitten om expansion och klassval beskriver den aktuella versionen och dess 25 godkända tester.
 ## 1. Uppdrag till byggagenten
 
 Bygg vidare på Legion TD Vibe i den befintliga B3 Vibe-portalen. Den nya spelmodellen är inspirerad av Bloons: fasta torn skjuter på fiender som följer en förutbestämd bana. Denna version ersätter tidigare krav på rörliga försvarare, närstrid, tornhälsa och läkning. Lägg till det färdiga spelet i portalens tillgängliga spellista.
@@ -13,7 +15,7 @@ Detta dokument är byggunderlaget, inte en rapport om genomförd implementation 
 - Spelet heter **Legion TD Vibe**.
 - Bloons-liknande bandesign: fasta torn, synliga projektiler och fiender som följer banan.
 - Fantasifulla, illustrerade torn som laddas från riktiga bildfiler. CSS används för gränssnittet.
-- Varje torn har separata uppgraderingar för skada och räckvidd, med tydliga priser och effekter.
+- Varje torn har separata uppgraderingar för skada, räckvidd och eldhastighet, med tydliga priser och effekter.
 - Varje torn förklaras i spelet med roll, attack, specialeffekt, styrkor och placeringstips.
 - Döda fiender ger pengar.
 - Varje våg blir svårare.
@@ -91,7 +93,7 @@ Vanliga fiender tar ett kungaliv när de läcker. Bossar tar fem. En död eller 
 
 ### 6.1 Grundvärden och gemensamma regler
 
-Varje torn har nu två **separata uppgraderingsspår: Skada och Räckvidd**, vardera från nivå 0 till 3. Båda kan maxas på samma torn. Detta ersätter helt den tidigare engångsuppgraderingen. Ramenmunken får också en egen avståndsattack så att skadeuppgraderingen gör konkret skada för samtliga sex torn; dess stödaura finns kvar.
+Varje torn har nu tre **separata uppgraderingsspår: Skada, Räckvidd och Eldhastighet**, vardera från nivå 0 till 3. Alla tre kan maxas på samma torn. Detta ersätter helt den tidigare engångsuppgraderingen. Ramenmunken får också en egen avståndsattack så att skadeuppgraderingen gör konkret skada för samtliga sex torn; dess stödaura finns kvar.
 
 Alla värden nedan är ett konkret balansutkast som ska provspelas. Avstånd mäts i rutor, skada per projektil och intervall i sekunder. DPS betyder skada per sekund mot ett enda mål, före pansar och stöd, vid kontinuerlig eld. Områdesskada kan ge högre sammanlagd skada mot flera fiender.
 
@@ -150,7 +152,7 @@ Bild: liten munk i krämfärgade och violetta kläder på en rund sockel, sväva
 
 ### 6.3 Separata skade- och räckviddsuppgraderingar
 
-Uppgraderingar köps i byggfas för Ramen. Varje spår köps stegvis: 0 → 1 → 2 → 3. Det finns inget krav på att köpa det andra spåret och ingen gemensam gräns på tre köp. Exempel: ett torn får vara Skada 3 / Räckvidd 3. Uppgraderingar gäller bara det enskilda tornet och bara den pågående matchen.
+Uppgraderingar köps i byggfas för Ramen. Varje spår köps stegvis: 0 → 1 → 2 → 3. Det finns inget krav på att köpa de andra spåren och ingen gemensam gräns på tre köp. Exempel: ett torn får vara Skada 3 / Räckvidd 3 / Eldhastighet 3. Uppgraderingar gäller bara det enskilda tornet och bara den pågående matchen.
 
 | Nivå | Skademultiplikator från grundvärdet | Räckviddsmultiplikator från grundvärdet |
 |---|---:|---:|
@@ -159,7 +161,7 @@ Uppgraderingar köps i byggfas för Ramen. Varje spår köps stegvis: 0 → 1 �
 | 2 | ×1,90 | ×1,30 |
 | 3 | ×2,60 | ×1,50 |
 
-Multiplikatorerna avser grundvärdet, inte föregående nivå. Attackintervall, projektilfart, explosionsradie, köldeffekt och aurans bonusprocent ändras inte av dessa spår. Detta gör att varje knapp har en tydlig och förutsägbar funktion.
+Multiplikatorerna avser grundvärdet, inte föregående nivå. Skade- och räckviddsspåren ändrar inte attackintervall, projektilfart, explosionsradie, köldeffekt eller aurans bonusprocent. Eldhastighet ändrar bara attackintervallet; se avsnitt 6.5. Detta gör att varje knapp har en tydlig och förutsägbar funktion.
 
 Priset för nästa steg beräknas från tornets grundpris och avrundas upp till närmaste 5 Ramen: `5 × ceil(grundpris × kostnadsfaktor / 5)`. Skadesteg 1/2/3 använder faktorerna 0,60 / 1,00 / 1,60. Räckviddssteg 1/2/3 använder 0,40 / 0,70 / 1,10. Tabellen visar kostnaden för varje enskilt köp, inte totalsumman.
 
@@ -189,7 +191,7 @@ Exempel för munken: Skada 1 ger 17 visad projektilskada efter avrundning. Räck
 
 Efter nivå 3 visar respektive knapp **MAX NIVÅ** och kan inte debitera fler pengar. Saknas Ramen visar knappen exempelvis **Saknar 35 Ramen**. Under strid visar båda **Tillgängligt mellan vågor**. Validera fas, tornets existens, aktuell nivå och saldo igen när köpet utförs så att dubbelklick inte köper en osynlig extra nivå.
 
-Torn kan inte flyttas efter placering. Försäljning ger `floor(0,70 × totalt faktiskt betalt för tornet och båda uppgraderingsspåren)`, begränsat av saldotaket. Visa exakt återbetalning. Zebravakten i exemplet säljs för 140. Sålda nivåer överförs inte till nästa torn.
+Torn kan inte flyttas efter placering. Försäljning ger `floor(0,70 × totalt faktiskt betalt för tornet och alla tre uppgraderingsspåren)`, begränsat av saldotaket. Visa exakt återbetalning. Zebravakten i exemplet säljs för 140. Sålda nivåer överförs inte till nästa torn.
 
 ### 6.4 Grafik – detaljerad art direction och leveranskrav
 
@@ -217,6 +219,27 @@ Lager ska ha gemensamt 512 × 512-format, baslinje, vridpunkt och marginaler. Ma
 
 Förladda obligatoriska spelbilder och visa laddningsstatus samt Försök igen vid saknad fil. Lokalt spel kräver inga externa bildanrop. Utvecklingsplatshållare får inte stå kvar som slutlig huvudgrafik. Kontrollera rena transparenta kanter utan vit halo, samma perspektiv och inga avklippta vapen i samtliga uppgraderingskombinationer. Testa vid faktisk spelstorlek 48–80 px, på 1×/2× pixeltäthet och i smal mobilvy. Läget **Minskade effekter** stänger av dekorativa partiklar och starka blixtar men behåller skott, mål, kyla och funktionella räckviddsmarkeringar.
 
+
+### 6.5 Eldhastighet – tredje uppgraderingsspåret
+
+Användarens tillägg: varje torn ska kunna skjuta snabbare. **Eldhastighet** har nivå 0–3, köps separat för varje torn och kan maxas samtidigt som Skada och Räckvidd. Det finns därmed 64 regelkombinationer per torntyp. Tornen står fortfarande helt stilla.
+
+| Nivå | Skott per sekund relativt grundvärdet | Attackintervall |
+|---|---:|---|
+| 0 | ×1,00 | grundintervall |
+| 1 | ×1,20 | grundintervall / 1,20 |
+| 2 | ×1,50 | grundintervall / 1,50 |
+| 3 | ×1,90 | grundintervall / 1,90 |
+
+Varje steg kostar 50 %, 90 % respektive 140 % av tornets grundpris, avrundat upp till närmaste 5 Ramen. Exempel: Zebravakt kostar 50 / 90 / 140; Nudelskytt 75 / 135 / 210; Buljongkanon 110 / 200 / 310; Chilikastare 130 / 235 / 365; Iskock 100 / 180 / 280; Ramenmunk 120 / 220 / 340.
+
+Skada per träff, målval, projektilfart, räckvidd, explosionsradie, köldstyrka och aurans bonusprocent ändras inte. Iskocken kan förnya kyla oftare men staplar den aldrig. Munkens uppgradering påverkar bara egna energikulor. Vid nivå 3 skjuter en Zebravakt var 0,473684… sekund i stället för var 0,9; panelen visar 0,47 s. Använd full precision i simuleringen.
+
+Panelen visar ett tredje uppgraderingskort: **ELDHASTIGHET X/3**, nuvarande → nästa skottintervall, nästa teoretiska DPS, pris och räntepåverkan. DPS beräknas som avrundad träffskada mot en vanlig fiende dividerad med faktiskt skottintervall. Utrustningsnamn: Grundladdare → Snabbladdare → Automatisk matning → Överladdat verk. På planen visas en separat hastighetssymbol och nivå. Befintliga 16 bildkombinationer för skada/räckvidd behålls; tätare skott och rekyl visar hastighetsförändringen.
+
+Samma regler gäller för köp mellan vågor, maxnivå, saknade pengar, dubbelklick och återbetalning som för andra spår. Försäljning räknar in alla tre spårens faktiska kostnader. En Zebravakt med enbart hastighet 3 har kostat 100 + 50 + 90 + 140 = 380 och säljs för 266 Ramen före saldotak.
+
+Verifiera alla 64 nivåkombinationer per torntyp. Kontrollera faktiskt antal skott i simuleringen vid nivå 0 och 3 för alla sex torn, inte bara de visade siffrorna. Testa att uppgraderad munk fortfarande inte stärker sin egen attack med aura.
 
 ## 7. Vågor och progression
 
@@ -294,7 +317,7 @@ Använd stora touchytor, läsbara kontraster och symboler tillsammans med färge
 
 Markering öppnar en panel med tornets porträtt, namn och roll överst. Visa en kort förklaring i vanlig svenska, följd av **Skada per träff**, **Attackintervall**, **Räckvidd**, **Specialeffekt** och **Målprioritet**. Visa egen statistik och bonus från Ramenmunk separat. DPS ska märkas som teoretisk enmålsskada per sekund; det är inte garanterad faktisk skada. För munken visas dessutom **Aurastyrka**, **Auraradie** och antal berörda torn.
 
-Två separata uppgraderingskort visar aktuell nivå av 3, nästa värde, pris, aktuell köpmöjlighet och hur köpet påverkar räntan. Båda går att använda via mus, tangentbord och touch. Knappen köper precis den visade nästa nivån. Efter köp uppdateras panel, saldo, förväntad ränta, tornbild och räckvidd direkt. Det andra spårets nivå behålls.
+Tre separata uppgraderingskort visar aktuell nivå av 3, nästa värde, pris, aktuell köpmöjlighet och hur köpet påverkar räntan. Båda går att använda via mus, tangentbord och touch. Knappen köper precis den visade nästa nivån. Efter köp uppdateras panel, saldo, förväntad ränta, tornbild och räckvidd direkt. De andra spårens nivåer behålls.
 
 Exempel för en Zebravakt på nivå 0/0 utan stöd:
 
@@ -356,9 +379,9 @@ Separera tillstånden byggfas, strid, vågresultat, paus, vinst och förlust. Pa
 
 Håll definitioner för enheter, fiender och vågor i samlad balansdata. Separera tornens fasta positioner från fiendernas hälsa och framsteg på banan samt projektilernas tillstånd. Rensa gamla fält och logik för tornhälsa, förflyttning, närstrid och läkning, även om de finns kvar i den äldre implementationen. Använd fast tidssteg för simuleringen och `requestAnimationFrame` för rendering; undvik att stridshastighet beror på skärmens bildfrekvens. Återupptagning ska inte spela ikapp dold tid.
 
-Spara damageLevel och rangeLevel separat per torn samt faktiskt investerat belopp. Beräkna statistik från grunddata och nivåer vid behov i stället för att multiplicera redan uppgraderade värden igen. Använd samma beräkning för panel, räckviddscirkel och strid. Versionsmärk eventuell sparad tornstruktur; anta inte att äldre engångsuppgraderingar motsvarar nivåer i båda de nya spåren.
+Spara damageLevel, rangeLevel och speedLevel separat per torn samt faktiskt investerat belopp. Beräkna statistik från grunddata och nivåer vid behov i stället för att multiplicera redan uppgraderade värden igen. Använd samma beräkning för panel, räckviddscirkel och strid. Versionsmärk eventuell sparad tornstruktur; anta inte att äldre engångsuppgraderingar motsvarar nivåer i båda de nya spåren.
 
-Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fungerande strid, vågövergångar, ränta och tak, sex torn och bossar, båda uppgraderingsspåren, fullständig tornguide, illustrerade bilder och animationer, mobilstyrning och slutlig provspelning. Registrera den färdiga spelvägen i spellistan och kontrollera att öppning från portalen fungerar.
+Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fungerande strid, vågövergångar, ränta och tak, sex torn och bossar, alla tre uppgraderingsspåren, fullständig tornguide, illustrerade bilder och animationer, mobilstyrning och slutlig provspelning. Registrera den färdiga spelvägen i spellistan och kontrollera att öppning från portalen fungerar.
 
 ## 12. Klart när följande är verifierat
 
@@ -391,3 +414,13 @@ Genomför bygget i ordning: portalöppning och spelplan, köp och placering, fun
 - Banan i bakgrundsbilden följer fiendernas verkliga väg. Detaljer, skuggor och animationer får inte dölja mål, räckvidd eller byggbar mark. Kontrollera reducerade effekter och största svärmen vid 2× hastighet.
 - Provspela både tidiga skadeuppgraderingar och tidiga räckviddsuppgraderingar. Kontrollera att fler billiga torn och färre uppgraderade torn båda har användbara roller; rapportera observerad balans utan att påstå att oprövade varianter är verifierade.
 Automatisera främst ekonomi, uppgraderingskostnader, statistikberäkning, engångsavräkning, målval och vågtillstånd. Använd verklig provspelning för läsbarhet, känsla och balans. Byggagentens slutrapport ska ange ändrade filer, kontroller som utförts, eventuella balansjusteringar och kvarstående begränsningar.
+
+## Karttillägg: fyra landskap
+
+Implementerat i projektet: Bambulunden (ursprunglig bana), Frostpasset (snö och hårnålskurvor), Solravinen (sandstensravin och lång ytterkant) och Glödkratern (basalt, lava och kortare sicksackväg). Varje karta har unik ortogonal rutt, eget landskap, vägmaterial, miniatyr och placeringstips. Grön startmarkering visar ingång och färdriktning; alla rutter avslutas vid ramenköket.
+
+Kartväljaren förhandsvisar utan att ändra pågående match. Spela vald karta startar en ny match, med bekräftelse om spelaren redan har byggt eller kommit förbi första vågen. Starta om behåller kartan. Alla kartor använder samma ekonomi, fiender och uppgraderingar. Landskapsdekorationer ändrar inte tornens eller fiendernas egenskaper.
+
+## Progressionsexpansion (2026-09-25)
+
+Implementationen omfattar nu 13 torn i Nudelköket, Tehuset och Arkana orden; sex nivåer per skade-, räckvidds- och eldhastighetsspår; fyra valbara specialrunor; bossarnas sigill och bonusval; helande fiender från våg 16 samt valbar expedition till våg 40. Se avsnittet "Expansion: bossbelöningar, runor och tre tornklasser" i README.md för aktuella siffror, begränsningar och verifiering. Dessa regler ersätter tidigare begränsningar till tre nivåer och sex torn i dokumentet.

@@ -8,5 +8,6 @@
   {"name":"Vibetris","folder":"vibetris","description":"Tetris med SRS-rotation, hold, ghost och T-spins. Topplista sparas.","tag":"PUSSEL","controls":"Piltangenter / X och Z / Mellanslag","number":"07"},
   {"name":"Vibe Breaker","folder":"vibe-breaker","description":"Studsa vibe-orben med zebran och krossa den färgglada väggen.","tag":"BRICK BREAKER","controls":"Piltangenter / A och D / Dra","number":"08"},
   {"name":"Vibe Slash","folder":"vibe-slash","description":"Skiva b3-orber med handrörelser framför kameran. Musen funkar också.","tag":"RÖRELSE","controls":"Kamera / Mus","number":"09"},
-  {"name":"Legion TD Vibe","folder":"ramen-legion-td","description":"Försvara ramenköket med illustrerade torn. Uppgradera skada och räckvidd, överlev 20 vågor och få 5 % ränta.","tag":"TOWER DEFENSE","controls":"Mus / Touch / 1–6","number":"10"}
+  {"name":"Legion TD Vibe","folder":"ramen-legion-td","description":"18 torn i tre klasser. Välj klass och karta, bygg under strid, smid specialrunor och uppgradera till nivå 6. Fyra kartor och expedition till våg 40.","tag":"TOWER DEFENSE","controls":"Mus / Touch / 1–6","number":"10"},
+  {"name":"Vibemaul","folder":"vibemaul","description":"Wintermaul-inspirerat maze TD i en lång rak korridor. Dina torn är väggarna. Nio byggare: närstrid, räckvidd, billiga, synergi och mer. Testläge med oändligt guld.","tag":"MAZE TD","controls":"Mus / Touch / 1–8 / Mellanslag","number":"11"}
 ]

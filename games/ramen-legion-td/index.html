@@ -5,31 +5,49 @@
   <title>Legion TD Vibe · B3 Vibe</title>
   <link rel="stylesheet" href="../../style.css"><link rel="stylesheet" href="style.css">
   <script src="../common.js" defer></script><script src="data.js" defer></script>
-  <script src="rules.js" defer></script><script src="towers.js" defer></script><script src="game.js" defer></script>
+  <script src="maze.js" defer></script><script src="rules.js" defer></script><script src="towers.js" defer></script><script src="art.js" defer></script><script src="game.js" defer></script>
 </head>
 <body><main class="game-shell ltd">
   <a class="back-link" href="../../index.html">← Till huvudmenyn <kbd>Esc</kbd></a>
   <header class="game-header"><p class="eyebrow">10 / STRATEGI & TOWER DEFENSE</p>
     <h1>Legion TD Vibe<span>.</span></h1><p>Bygg din försvarslinje. Förstärk varje torn. Skydda ramenköket.</p>
   </header>
-  <div class="toolbar ltd-hud">
+  <div class="toolbar ltd-hud" id="match-hud" hidden>
     <div><small>RAMEN</small><strong id="ramen">500 / 300 000</strong></div>
     <div><small>5 % RÄNTA</small><strong id="ranta">25</strong></div>
     <div><small>KUNGALIV</small><strong id="liv">20</strong></div>
     <div><small>VÅG</small><strong id="vag">1 / 20</strong></div>
+    <div><small>BOSSSIGILL</small><strong id="seals">0</strong></div>
     <span class="phase" id="fas">Byggfas</span>
-    <button class="control" id="start" type="button">Starta om</button>
+    <button class="control" id="start" type="button">Ny match / välj klass</button>
   </div>
-  <div class="ltd-layout">
-    <section class="ltd-field" aria-label="Spelplan">
       <div id="loading" role="status">Laddar illustrationer…</div>
       <button class="control" id="retry-assets" hidden>Försök ladda bilder igen</button>
+  <section id="setup-panel" class="setup-panel"><h2>Välj din legion</h2><p>Din klass ger sex unika torn för hela matchen. Välj först klass, sedan karta.</p><h3>1 · Välj klass</h3><select id="setup-class" hidden aria-label="Vald klass"><option value="">Välj en klass…</option></select><div id="setup-roster" class="class-choices" role="group" aria-label="Välj klass"></div>
+  <div class="difficulty-picker mode-picker"><label for="mode-select">Spelläge</label><select id="mode-select"><option value="classic">Klassiskt · fasta vägar</option><option value="maze">Maze · bygg din egen väg</option></select><p id="mode-description">Klassiskt: fiender följer kartans fasta väg.</p></div>
+  <div class="difficulty-picker"><label for="difficulty-select">2 · Svårighetsgrad</label><select id="difficulty-select"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select><p id="difficulty-description"></p><small>Samma startresurser, belöningar och 5 % ränta på alla nivåer.</small></div><section class="map-picker map-gallery" aria-label="Välj karta"><h3>3 · Välj karta</h3><p class="map-legend">Alla kartor visas nedan. Välj först klass och sedan karta. Grönt markerar starten, rött markerar ramenköket.</p><div id="map-choices" class="map-choices" role="group" aria-label="Kartor"></div>
+    <canvas hidden id="map-preview" width="224" height="196" aria-label="Förhandsvisning av vald kartas fiendeväg"></canvas>
+    <div class="map-details">
+      <select id="map-select" hidden aria-label="Vald karta" disabled><option value="">Välj en karta…</option></select>
+      <p id="map-description" hidden></p><p id="map-tip" hidden></p>
+      <small id="active-map" aria-live="polite"></small>
+    </div>
+    <div class="map-actions"><button class="control primary" id="play-map" type="button" disabled>Starta match</button><small>Startar en ny match med 500 Ramen.</small></div>
+  </section>
+  </section>
+  <p id="match-selection" hidden></p><p id="maze-info" class="maze-info" hidden></p>
+  <section id="boss-rewards" class="boss-rewards" hidden aria-label="Bossbelöningar"><h2>Bossens skatt</h2><p>Välj en bonus per besegrad boss. Sigill används till mästarnivåer eller en specialruna på ett torn.</p><div id="reward-choices"></div></section>
+  <p id="army-bonuses" class="army-bonuses"></p>
+  <div class="ltd-layout" id="match-area" hidden>
+    <section class="ltd-field" aria-label="Spelplan">
+
       <canvas id="board" width="748" height="652" tabindex="0" aria-label="Spelplan. Välj torn 1–6, flytta rutmarkören med piltangenter, placera eller markera med Enter."></canvas>
       <div class="touch-controls" aria-label="Spelkontroller">
         <button class="control primary" type="button" id="starta-vag">Starta våg</button>
         <button class="control" type="button" id="pausa">Pausa</button>
         <button class="control" type="button" id="fart">1×</button>
         <button class="control" type="button" id="avbryt">Avbryt val</button>
+        <button class="control primary" type="button" id="expedition" hidden>Fortsätt · expedition 21–40</button>
       </div>
       <p id="status" role="status">Välj ett torn och en ledig ruta bredvid stigen.</p>
       <div class="ltd-nasta"><b id="nasta-vag"></b><span id="nasta-egenskap"></span></div>
@@ -37,7 +55,7 @@
     </section>
     <aside class="ltd-sidebar" aria-label="Torn och uppgraderingar">
       <div class="section-heading"><div><p class="eyebrow">DIN FÖRSVARSLINJE</p><h2>Tornverkstaden</h2></div><button class="control" id="guide-open">Tornguide</button></div>
-      <p class="shop-hint">Välj ett torn, placera på marken. Markera ett byggt torn för att uppgradera.</p>
+      <p class="shop-hint">Bygg och uppgradera även under vågen. Din klass är låst tills nästa match.</p>
       <section class="ltd-vald" id="vald-panel" hidden aria-label="Valt torn">
         <div class="selected-heading"><canvas id="selected-art" width="192" height="192" aria-hidden="true"></canvas><div><span id="vald-roll" class="eyebrow"></span><h2 id="vald-namn"></h2><span id="levels"></span></div></div>
         <p id="vald-info"></p>
@@ -45,16 +63,19 @@
         <p id="aura-info" class="aura-info" hidden></p>
         <label class="target-label">Målprioritet <select id="target-mode"><option value="first">Först på banan</option><option value="last">Sist på banan</option><option value="strong">Starkast</option><option value="near">Närmast</option></select></label>
         <div id="upgrade-grid" class="upgrade-grid">
-          <div class="upgrade-card damage"><span class="eyebrow" id="damage-level">SKADA 0/3</span><strong id="damage-preview"></strong><small id="damage-name"></small><button class="control" id="upgrade-damage">Uppgradera skada</button><small id="damage-interest"></small></div>
-          <div class="upgrade-card range"><span class="eyebrow" id="range-level">RÄCKVIDD 0/3</span><strong id="range-preview"></strong><small id="range-name"></small><button class="control" id="upgrade-range">Uppgradera räckvidd</button><small id="range-interest"></small></div>
+          <div class="upgrade-card damage"><span class="eyebrow" id="damage-level">SKADA 0/6</span><strong id="damage-preview"></strong><small id="damage-name"></small><button class="control" id="upgrade-damage">Uppgradera skada</button><small id="damage-interest"></small></div>
+          <div class="upgrade-card range"><span class="eyebrow" id="range-level">RÄCKVIDD 0/6</span><strong id="range-preview"></strong><small id="range-name"></small><button class="control" id="upgrade-range">Uppgradera räckvidd</button><small id="range-interest"></small></div>
+          <div class="upgrade-card speed"><span class="eyebrow" id="speed-level">ELDHASTIGHET 0/6</span><strong id="speed-preview"></strong><small id="speed-name"></small><button class="control" id="upgrade-speed">Uppgradera eldhastighet</button><small id="speed-interest"></small><small>Fler skott per sekund. Samma skada per träff.</small></div>
         </div>
+        <section class="rune-forge"><h3>Runverkstaden · 1 sigill</h3><p id="rune-status"></p><div id="rune-choices"></div><small>En runa per torn. Vid försäljning återfås alla sigill, men bara 70 % av Ramen.</small></section>
         <div class="ltd-knappar"><button class="control" id="tower-help">Mer om tornet</button><button class="control" id="salj">Sälj</button></div>
       </section>
+      <div id="class-tabs" hidden></div><p id="class-description" class="shop-hint"></p>
       <div class="ltd-butik" id="shop" aria-label="Tornbutik"></div>
-      <div id="empty-selection" class="selection-hint">Varje torn kan få <b>Skada 3</b> och <b>Räckvidd 3</b>. Spara Ramen för 5 % ränta efter vågen.</div>
+      <div id="empty-selection" class="selection-hint">Varje torn kan få <b>Skada 6</b>, <b>Räckvidd 6</b> och <b>Eldhastighet 6</b>. Nivå 4–6 kräver även bosssigill. Spara Ramen för 5 % ränta efter vågen.</div>
       <label class="effects-label"><input type="checkbox" id="reduced-effects"> Minskade effekter</label>
-      <p class="keyboard-help">1–6: välj torn · Pilar + Enter: placera<br>Mellanslag: nästa våg · P: paus · F: helskärm</p>
+      <p class="keyboard-help">1–6: välj torn i vald klass · Pilar + Enter: placera<br>Mellanslag: nästa våg · P: paus · F: helskärm</p>
     </aside>
   </div>
-  <dialog id="guide-dialog" aria-labelledby="guide-title"><div class="guide-top"><div><p class="eyebrow">LÄR KÄNNA DIN LEGION</p><h2 id="guide-title">Tornguiden</h2></div><button class="control" id="guide-close">Stäng guiden</button></div><nav id="guide-tabs" aria-label="Välj torn"></nav><div id="guide-body"></div><p class="guide-note">Uppgraderingar gäller detta torn och denna match. Skada och räckvidd kan båda nå nivå 3.</p></dialog>
+  <dialog id="guide-dialog" aria-labelledby="guide-title"><div class="guide-top"><div><p class="eyebrow">LÄR KÄNNA DIN LEGION</p><h2 id="guide-title">Tornguiden</h2></div><button class="control" id="guide-close">Stäng guiden</button></div><nav id="guide-tabs" aria-label="Välj torn"></nav><div id="guide-body"></div><p class="guide-note">Uppgraderingar gäller detta torn och denna match. Skada, räckvidd och eldhastighet kan alla nå nivå 6. Nivå 4–6 kostar även ett bosssigill per steg.</p></dialog>
 </main></body></html>
